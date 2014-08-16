@@ -28,5 +28,11 @@
             </key>
             <one-to-many class="com.gdpi.attendance.form.SubClass" />
         </set>
+        <set name="subattendances" inverse="true">
+            <key>
+                <column name="subject_id" not-null="true" />
+            </key>
+            <one-to-many class="com.gdpi.attendance.form.Subattendance" />
+        </set>
     </class>
 </hibernate-mapping>

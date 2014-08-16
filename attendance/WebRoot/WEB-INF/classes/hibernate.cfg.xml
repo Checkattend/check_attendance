@@ -33,6 +33,8 @@
 		<mapping resource="com/gdpi/attendance/form/Grade.hbm.xml" />
 		<mapping resource="com/gdpi/attendance/form/Major.hbm.xml" />
 		<mapping resource="com/gdpi/attendance/form/RoleJur.hbm.xml" />
+		<mapping
+			resource="com/gdpi/attendance/form/Subattendance.hbm.xml" />
 
 	</session-factory>
 
