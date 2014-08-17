@@ -5,8 +5,8 @@ public class StudentForm {
 	private String username;
 	private String account;
 	private String password;
-	private RoleForm roleForm;
-	private ClassForm classForm;
+	private Integer roleId;
+	private Integer clasId;
 	
 	public Integer getId() {
 		return id;
@@ -32,18 +32,17 @@ public class StudentForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public RoleForm getRoleForm() {
-		return roleForm;
+	public Integer getRoleId() {
+		return roleId;
 	}
-	public void setRoleForm(RoleForm roleForm) {
-		this.roleForm = roleForm;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
-	public ClassForm getClassForm() {
-		return classForm;
+	public Integer getClasId() {
+		return clasId;
 	}
-	public void setClassForm(ClassForm classForm) {
-		this.classForm = classForm;
+	public void setClasId(Integer clasId) {
+		this.clasId = clasId;
 	}
-	
 	
 }

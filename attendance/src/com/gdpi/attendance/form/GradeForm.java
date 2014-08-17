@@ -2,7 +2,7 @@ package com.gdpi.attendance.form;
 
 public class GradeForm {
 	private Integer id;
-	private String name;
+	private String gradename;
 	private String des;
 	
 	public Integer getId() {
@@ -11,11 +11,11 @@ public class GradeForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getGradename() {
+		return gradename;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setGradeName(String gradename) {
+		this.gradename = gradename;
 	}
 	public String getDes() {
 		return des;

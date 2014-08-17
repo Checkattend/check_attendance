@@ -5,7 +5,7 @@ public class TeacherForm {
 	private String username;
 	private String account;
 	private String password;
-	private RoleForm roleForm;
+	private Integer roleId;
 	
 	public Integer getId() {
 		return id;
@@ -31,12 +31,11 @@ public class TeacherForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public RoleForm getRoleForm() {
-		return roleForm;
+	public Integer getRoleId() {
+		return roleId;
 	}
-	public void setRoleForm(RoleForm roleForm) {
-		this.roleForm = roleForm;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
-	
 	
 }

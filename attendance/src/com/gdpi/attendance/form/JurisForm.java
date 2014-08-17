@@ -2,19 +2,20 @@ package com.gdpi.attendance.form;
 
 public class JurisForm {
 	private Integer id;
-	private String name;
+	private String jurisname;
 	private String des;
+	
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getJurisname() {
+		return jurisname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setJurisname(String jurisname) {
+		this.jurisname = jurisname;
 	}
 	public String getDes() {
 		return des;
@@ -22,6 +23,5 @@ public class JurisForm {
 	public void setDes(String des) {
 		this.des = des;
 	}
-	
 	
 }

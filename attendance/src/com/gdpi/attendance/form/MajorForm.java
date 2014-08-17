@@ -2,7 +2,7 @@ package com.gdpi.attendance.form;
 
 public class MajorForm {
 	private Integer id;
-	private String name;
+	private String majorname;
 	private String des;
 	
 	public Integer getId() {
@@ -11,11 +11,11 @@ public class MajorForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getMajorname() {
+		return majorname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setMajorname(String majorname) {
+		this.majorname = majorname;
 	}
 	public String getDes() {
 		return des;
@@ -23,6 +23,5 @@ public class MajorForm {
 	public void setDes(String des) {
 		this.des = des;
 	}
-	
 	
 }

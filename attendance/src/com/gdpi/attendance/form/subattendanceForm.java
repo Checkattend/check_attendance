@@ -1,21 +1,32 @@
 package com.gdpi.attendance.form;
 
-public class AttendanceForm {
+public class subattendanceForm {
 	private Integer id;
+	private String formname;
+	private Integer subjectId;
 	private Integer leave;
 	private Integer truancy;
 	private Integer late;
 	private Integer leaveEarly;
-	private Integer studentId;
-	private Integer clasId;
-	private Integer subjectId;
-	private Integer teacherId;
+	private String check;
 	
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public String getFormname() {
+		return formname;
+	}
+	public void setFormname(String formname) {
+		this.formname = formname;
+	}
+	public Integer getSubjectId() {
+		return subjectId;
+	}
+	public void setSubjectId(Integer subjectId) {
+		this.subjectId = subjectId;
 	}
 	public Integer getLeave() {
 		return leave;
@@ -41,29 +52,11 @@ public class AttendanceForm {
 	public void setLeaveEarly(Integer leaveEarly) {
 		this.leaveEarly = leaveEarly;
 	}
-	public Integer getStudentId() {
-		return studentId;
+	public String getCheck() {
+		return check;
 	}
-	public void setStudentId(Integer studentId) {
-		this.studentId = studentId;
-	}
-	public Integer getClasId() {
-		return clasId;
-	}
-	public void setClasId(Integer clasId) {
-		this.clasId = clasId;
-	}
-	public Integer getSubjectId() {
-		return subjectId;
-	}
-	public void setSubjectId(Integer subjectId) {
-		this.subjectId = subjectId;
-	}
-	public Integer getTeacherId() {
-		return teacherId;
-	}
-	public void setTeacherId(Integer teacherId) {
-		this.teacherId = teacherId;
+	public void setCheck(String check) {
+		this.check = check;
 	}
 	
 }

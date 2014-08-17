@@ -2,7 +2,7 @@ package com.gdpi.attendance.form;
 
 public class RoleForm {
 	private Integer	id;
-	private String name;
+	private String rolename;
 	private String des;
 	public Integer getId() {
 		return id;
@@ -10,11 +10,11 @@ public class RoleForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getRolename() {
+		return rolename;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
 	}
 	public String getDes() {
 		return des;
@@ -22,6 +22,5 @@ public class RoleForm {
 	public void setDes(String des) {
 		this.des = des;
 	}
-	
 	
 }

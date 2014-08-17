@@ -2,7 +2,7 @@ package com.gdpi.attendance.form;
 
 public class SubjectForm {
 	private Integer id;
-	private String name;
+	private String subjectname;
 	private String des;
 	
 	public Integer getId() {
@@ -11,11 +11,11 @@ public class SubjectForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getSubjectname() {
+		return subjectname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setSubjectname(String subjectname) {
+		this.subjectname = subjectname;
 	}
 	public String getDes() {
 		return des;
@@ -23,6 +23,5 @@ public class SubjectForm {
 	public void setDes(String des) {
 		this.des = des;
 	}
-	
 	
 }
