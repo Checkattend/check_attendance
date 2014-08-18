@@ -23,7 +23,7 @@ public class TeacherDao {
 		   	{   
 		   	    	  teacherForm=new TeacherForm();	
 		   	    		teacherForm.setId(Integer.valueOf(rs.getString(1)));
-		   	    		teacherForm.setUsername(rs.getString(2));
+		   	    		teacherForm.setTeachername(rs.getString(2));
 		   	    	 	teacherForm.setAccount(rs.getString(3));
 		   	    	 teacherForm.setPassword(rs.getString(4));
 		   	    	 teacherForm.setRoleId(Integer.valueOf(rs.getString(4)));

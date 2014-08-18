@@ -2,7 +2,7 @@ package com.gdpi.attendance.form;
 
 public class TeacherForm {
 	private Integer id;
-	private String username;
+	private String teachername;
 	private String account;
 	private String password;
 	private Integer roleId;
@@ -13,11 +13,11 @@ public class TeacherForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	public String getTeachername() {
+		return teachername;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setTeachername(String teachername) {
+		this.teachername = teachername;
 	}
 	public String getAccount() {
 		return account;

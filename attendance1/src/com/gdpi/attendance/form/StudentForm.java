@@ -2,7 +2,7 @@ package com.gdpi.attendance.form;
 
 public class StudentForm {
 	private Integer id;
-	private String username;
+	private String studentname;
 	private String account;
 	private String password;
 	private Integer roleId;
@@ -14,11 +14,11 @@ public class StudentForm {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	public String getStudentname() {
+		return studentname;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setStudentname(String studentname) {
+		this.studentname = studentname;
 	}
 	public String getAccount() {
 		return account;
