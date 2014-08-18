@@ -3,7 +3,45 @@
   <head>
   <title>登录页面</title>
   <style type="text/css">
-</style>	
+</style>
+  <script>
+				function valiusername(){
+					
+					//依据id找到对应的节点
+					var obj = 
+					document.getElementById('account');
+					var obj2 = 
+					document.getElementById('username_msg');
+					obj2.innerHTML='';
+															
+					if(obj.value.length == 0){
+						//innerHTML:标签之间的html代码		
+						obj2.innerHTML='账号必须填写';
+						return false;
+					}
+					return true;
+				}
+				
+				function valipwd(){
+					
+					//依据id找到对应的节点
+					var obj = 
+					document.getElementById('password');
+					var obj2 = 
+					document.getElementById('pwd_msg');
+					obj2.innerHTML='';
+					if(obj.value.length == 0){
+						//innerHTML:标签之间的html代码		
+						obj2.innerHTML='密码必须填写';
+						return false;
+					}
+					return true;
+				}
+				
+				function valiform(){
+					return valiusername()&& valipwd();
+				}
+		</script>	
   </head>
   <body background="images/login/body_background.jpg" >
 <table width="605" border="0" cellspacing="0" cellpadding="0" height="512" align="center">
@@ -20,15 +58,19 @@
     <td height="360">&nbsp;</td>
     <td>
     
-    <form id="form1" name="form1" method="post" action="LoginServlet?method=0&sign=0" >
+    <form id="form1" name="form1" method="post" action="LoginServlet?method=0&sign=0"  onSubmit="return valiform();">
     <table width="519" height="162" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="76">&nbsp;&nbsp;&nbsp;用户： </td>
-    <td width="443">&nbsp;&nbsp;&nbsp; <input name="account" type="text"   size="20" ></td>
+    <td width="443">&nbsp;&nbsp;&nbsp; <input name="account" type="text" size="20" maxlength="11" id="account" onBlur="valiusername();"/>
+     <span class="s1" id="username_msg"></span>
+    </td>
   </tr>
   <tr>
     <td>&nbsp;&nbsp;&nbsp;密码：</td>
-    <td>&nbsp;&nbsp;&nbsp;    <input  name='password' size="20 " type="password" ></td>
+    <td>&nbsp;&nbsp;&nbsp;     <input  name='password' id="password" size="20 " type="password" onBlur="valipwd();"/>
+    <span class="s1" id="pwd_msg"></span></p>
+    </td>
   </tr>
   <tr>
     <td colspan="2"><input name="userType" type="radio" value="0" checked>

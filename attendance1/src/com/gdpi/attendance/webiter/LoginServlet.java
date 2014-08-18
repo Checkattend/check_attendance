@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.gdpi.attendance.dao.TeacherDao;
 import com.gdpi.attendance.form.TeacherForm;
 //import com.gdpi.attendance.tool.Chinese;
@@ -56,10 +58,23 @@ throws ServletException, IOException {
 		}
 	 }
    //管理员登录 
-   /* if(userType.equals("4"))
+   if(userType.equals("4"))
     {
+	   teacherDao=new TeacherDao();
+		TeacherForm teacherForm=teacherDao.getTeacherForm(account);
+	   if(teacherForm==null&&!teacherForm.getAccount().equals(account))
+	    {
+		   request.setAttribute("information", "The user not exist, Please Login Again!!");  
+	    	
+	    }else if(!teacherForm.getPassword().equals(request.getParameter("password")))
+	    {
+	    	request.setAttribute("information", "Password error,Please Login Again");
+	    }else
+	     {
+	    	request.setAttribute("form", teacherForm);
+	     }
     	
-    }*/
+    }
     RequestDispatcher requestDispatcher=request.getRequestDispatcher("/dealwith.jsp");	
 	requestDispatcher.forward(request, response);	
 }

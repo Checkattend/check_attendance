@@ -17,10 +17,10 @@
 	      {
 	      out.println("<script language=javascript>alert('Login Success!!');window.location.href='Teacher_main.jsp';</script>");
 	      }
-	    /*  if(userType.equals("4"))
+	     if(userType.equals("4"))
 	      {
-	    
-	      }*/
+	          out.println("<script language=javascript>alert('Login Success!!');window.location.href='admin.jsp';</script>");
+	      }
 	      
 	   }
    }

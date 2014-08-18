@@ -26,7 +26,7 @@ public class TeacherDao {
 		   	    		teacherForm.setTeachername(rs.getString(2));
 		   	    	 	teacherForm.setAccount(rs.getString(3));
 		   	    	 teacherForm.setPassword(rs.getString(4));
-		   	    	 teacherForm.setRoleId(Integer.valueOf(rs.getString(4)));
+		   	    	 teacherForm.setRoleId(Integer.valueOf(rs.getString(5)));
 		   	   	}
 		
 		   }catch(SQLException e){
