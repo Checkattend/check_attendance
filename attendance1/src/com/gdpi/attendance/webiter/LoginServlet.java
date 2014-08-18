@@ -31,11 +31,13 @@ throws ServletException, IOException {
 	PrintWriter out = response.getWriter();
 	String account =request.getParameter("account");
     String userType=request.getParameter("userType");
-    out.print(userType);
+   // out.print(userType);测试传过来的用户类型
+    //普通用户登录
    /* if(userType.equals("0"))
     {
     	
     }*/
+    //任课老师登录
     if(userType.equals("2"))
     {
 	teacherDao=new TeacherDao();
@@ -50,17 +52,16 @@ throws ServletException, IOException {
 		request.setAttribute("information", "Password error,Please Login Again"); 		
 	}
 	else {
-		request.setAttribute("form", teacherForm);	
-		
+		request.setAttribute("form", teacherForm);			
 		}
-	RequestDispatcher requestDispatcher=request.getRequestDispatcher("/dealwith.jsp");	
-	requestDispatcher.forward(request, response);	
-    }
-    
+	 }
+   //管理员登录 
    /* if(userType.equals("4"))
     {
     	
     }*/
+    RequestDispatcher requestDispatcher=request.getRequestDispatcher("/dealwith.jsp");	
+	requestDispatcher.forward(request, response);	
 }
 
 public void doPost(HttpServletRequest request, HttpServletResponse response)
