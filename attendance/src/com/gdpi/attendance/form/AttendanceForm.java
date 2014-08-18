@@ -10,6 +10,7 @@ public class AttendanceForm {
 	private Integer clasId;
 	private Integer subjectId;
 	private Integer teacherId;
+	private Integer number;
 	
 	public Integer getId() {
 		return id;
@@ -64,6 +65,12 @@ public class AttendanceForm {
 	}
 	public void setTeacherId(Integer teacherId) {
 		this.teacherId = teacherId;
+	}
+	public Integer getNumber() {
+		return number;
+	}
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 	
 }
