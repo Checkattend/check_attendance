@@ -9,8 +9,10 @@ transitional.dtd">
      <%@ include file="/pages/commons/header.jsp" %>
         <script type="text/javascript"> 
         	var data = [
-            		{ID:1, TEXT:"用户管理系统", PID:0},
-            		{ID:11, TEXT:"用户", PID:1, URL:"/pages/carmgr/user.jsp"}
+            		{ID:1, TEXT:"任课老师", PID:0},
+            		{ID:11, TEXT:"个人信息", PID:1, URL:"/pages/carmgr/user.jsp"},
+            		{ID:12, TEXT:"查看考勤", PID:1, URL:"/pages/carmgr/user.jsp"},
+            		{ID:11, TEXT:"查看授课班级", PID:1, URL:"/pages/carmgr/user.jsp"}
             	];
             $(function ()
             { 
