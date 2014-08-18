@@ -9,10 +9,10 @@
 	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
 	   }else{
 	      session.setAttribute("form",request.getAttribute("form"));
-	         /*  if(userType.equals("0"))
+	      if(userType.equals("0"))
 	      {
-	    
-	      }*/ 
+	      	 out.println("<script language=javascript>alert('Login Success!!');window.location.href='Teacher_main.jsp';</script>");
+	      }
 	      if(userType.equals("2"))
 	      {
 	      out.println("<script language=javascript>alert('Login Success!!');window.location.href='Teacher_main.jsp';</script>");

@@ -9,12 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.gdpi.attendance.dao.StudentDao;
+
 import com.gdpi.attendance.dao.TeacherDao;
+import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.TeacherForm;
 //import com.gdpi.attendance.tool.Chinese;
 
 public class LoginServlet extends HttpServlet {
 	 private TeacherDao teacherDao=null;
+	 private StudentDao studentDao=null;
      private int method;
      
 public void doGet (HttpServletRequest request, HttpServletResponse response)
@@ -35,10 +39,18 @@ throws ServletException, IOException {
     String userType=request.getParameter("userType");
    // out.print(userType);测试传过来的用户类型
     //普通用户登录
-   /* if(userType.equals("0"))
+    if(userType.equals("0"))
     {
-    	
-    }*/
+    	studentDao = new StudentDao();
+    	StudentForm studentForm = studentDao.getStudentForm(account);
+    	if(studentForm == null || studentForm.getAccount().equals(request.getParameter("account"))) {
+    		request.setAttribute("information", "The user not exist, Please Login Again!!"); 
+    	}else if(!studentForm.getPassword().equals(request.getParameter("password"))) {
+    		request.setAttribute("information", "Password error,Please Login Again");
+    	}else {
+    		request.setAttribute("form", studentForm);
+    	}
+    }
     //任课老师登录
     if(userType.equals("2"))
     {

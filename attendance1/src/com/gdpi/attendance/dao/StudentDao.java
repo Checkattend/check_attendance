@@ -1,5 +1,8 @@
 package com.gdpi.attendance.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.gdpi.attendance.form.AttendanceForm;
 import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubjectForm;
@@ -23,7 +26,34 @@ public class StudentDao extends Controller {
 	public StudentDao() {
 		connection = new JDBConnection();
 	}
-
+	
+	/**
+	 * 普通学生登录查询
+	 * @param account
+	 * @return
+	 */
+	public StudentForm getStudentForm(String account) {
+		String sql = "select * from student where account='"+account+"'";
+		try{
+			   ResultSet rs=connection.executeQuery(sql);
+			   
+		   	      if(rs.next())
+		   	{   
+		   	    	  studentForm=new StudentForm();	
+		   	    	  studentForm.setId(Integer.valueOf(rs.getString(1)));
+		   	    	  studentForm.setStudentname(rs.getString(2));
+		   	    	  studentForm.setAccount(rs.getString(3));
+		   	    	  studentForm.setPassword(rs.getString(4));
+		   	    	  studentForm.setRoleId(Integer.valueOf(rs.getString(5)));
+		   	    	  studentForm.setClasId(Integer.valueOf(rs.getString(6)));
+		   	   	}
+		
+		   }catch(SQLException e){
+		   	e.printStackTrace();
+		   }
+		   return studentForm;
+	}
+	
 	/**
 	 * 查询该学生考勤情况
 	 * 
