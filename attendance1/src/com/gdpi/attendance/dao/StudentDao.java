@@ -9,9 +9,8 @@ import com.gdpi.attendance.form.StudentCheckForm;
 import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.tool.JDBConnection;
-import com.jfinal.core.Controller;
 
-public class StudentDao extends Controller {
+public class StudentDao {
 	private JDBConnection connection = null;
 	private StudentForm studentForm = null;
 	private StudentCheckForm studentCheckForm = null;

@@ -15,9 +15,6 @@ import com.gdpi.attendance.dao.StudentDao;
 import com.gdpi.attendance.dao.TeacherDao;
 import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.TeacherForm;
-import com.jfinal.core.Controller;
-import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
 
 //import com.gdpi.attendance.tool.Chinese;
 
