@@ -14,6 +14,10 @@
 	<head>
 		<title>考勤查询</title>
 		<%
+			Integer leaveTimes = 0;
+			Integer truancyTimes = 0;
+			Integer lateTimes = 0;
+			Integer leaveETimes = 0;
 			StudentDao studentDao = new StudentDao();
 			List<StudentCheckForm> studentChecklist = new ArrayList();
 			List<SubjectForm> studentSubjectlist = new ArrayList();
@@ -119,8 +123,24 @@
 									<td><%=studentCheckForm.getLeaveEarly()%></td>
 								</tr>
 								<%
+										leaveTimes += Integer.valueOf(studentCheckForm.getLeave());
+										truancyTimes += Integer.valueOf(studentCheckForm.getTruancy());
+										lateTimes += Integer.valueOf(studentCheckForm.getLate());
+										leaveETimes += Integer.valueOf(studentCheckForm.getLeaveEarly());
 									}
 								%>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table id="statistics" cellspacing="1" cellpadding="0"
+								width="100%" border="0" bgcolor="#ADCEEF">
+							<tbody>
+								<tr>
+									<td>出勤统计：请假&nbsp;<%=leaveTimes %>&nbsp;&nbsp;旷课&nbsp;<%=truancyTimes %>&nbsp;&nbsp;迟到&nbsp;<%=lateTimes %>&nbsp;&nbsp;早退&nbsp;<%=leaveETimes %></td>
+								</tr>
 							</tbody>
 						</table>
 					</td>
