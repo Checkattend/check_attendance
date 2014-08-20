@@ -1,6 +1,10 @@
 package com.gdpi.attendance.form;
 
-public class TeacherForm {
+/*
+ * [{id:"id",teachername:"name",account:"acc",password:"pd",roleId:"rid"},{id:"",teachername:""}]
+ * 
+ * */
+public class TeacherForm  {
 	private Integer id;
 	private String teachername;
 	private String account;

@@ -8,12 +8,12 @@ import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.JDBConnection;
-import com.jfinal.core.Controller;
+/*import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.Record;*/
 
-public class StudentDao extends Controller {
+public class StudentDao  {
 	private JDBConnection connection = null;
 	private StudentForm studentForm = null;
 	private TeacherForm teacherForm = null;
@@ -64,12 +64,12 @@ public class StudentDao extends Controller {
 		// String sql =
 		// "select * from attendance where student_id='"+studentId+"' and class_id='"+classId+"'";
 		System.out.println("sadhsajkldjlwas");
-		Page<Record> userPage = Db
+		/*Page<Record> userPage = Db
 				.paginate(
 						1,
 						30,
 						"select student.studentname,teacher.teachername,subject.subjectname,attendance.number,attendance.`leave`,attendance.truancy,attendance.late,attendance.leaveEarly",
 						"from attendance,student,teacher,subject where attendance.student_id=1 and attendance.student_id=student.id and attendance.teacher_id=teacher.id and attendance.subject_id=subject.id");
-		renderJson(userPage);
+		renderJson(userPage);*/
 	}
 }
