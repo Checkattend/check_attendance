@@ -11,7 +11,7 @@
 	      session.setAttribute("form",request.getAttribute("form"));
 	      if(userType.equals("0"))
 	      {
-	      	 out.println("<script language=javascript>alert('Login Success!!');window.location.href='Teacher_main.jsp';</script>");
+	      	 out.println("<script language=javascript>window.location.href='Student_main.jsp';</script>");
 	      }
 	      if(userType.equals("2"))
 	      {

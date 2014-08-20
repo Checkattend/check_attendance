@@ -21,6 +21,7 @@
 		<filter-name>encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
 	<servlet> 
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>com.gdpi.attendance.webiter.LoginServlet</servlet-class>
@@ -29,6 +30,16 @@
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet> 
+    <servlet-name>StudentServlet</servlet-name>
+    <servlet-class>com.gdpi.attendance.webiter.StudentServlet</servlet-class>
+  </servlet> 
+	
+  <servlet-mapping>
+    <servlet-name>StudentServlet</servlet-name>
+    <url-pattern>/StudentServlet</url-pattern>
   </servlet-mapping>
   
   <servlet> 
