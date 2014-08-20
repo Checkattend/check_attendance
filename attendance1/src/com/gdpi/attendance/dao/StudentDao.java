@@ -51,7 +51,7 @@ public class StudentDao {
 	}
 
 	/**
-	 * 查询该学生考勤情况
+	 * 查询该学生本学期所有考勤情况
 	 * 
 	 * @param classid
 	 * @return
@@ -61,6 +61,35 @@ public class StudentDao {
 		String sql = "select student.studentname,teacher.teachername,subject.subjectname,attendance.number,attendance.`leave`,attendance.truancy,attendance.late,attendance.leaveEarly from attendance,student,teacher,subject where attendance.student_id='"+studentId+"' and attendance.student_id=student.id and attendance.teacher_id=teacher.id and attendance.subject_id=subject.id";
 		ResultSet rs = connection.executeQuery(sql);
 		
+		try {
+			while(rs.next()) {
+				studentCheckForm = new StudentCheckForm();
+				studentCheckForm.setStudentName(rs.getString(1));
+				studentCheckForm.setTeacherName(rs.getString(2));
+				studentCheckForm.setSubjectName(rs.getString(3));
+				studentCheckForm.setClassHour(Integer.valueOf(rs.getString(4)));
+				studentCheckForm.setLeave(Integer.valueOf(rs.getString(5)));
+				studentCheckForm.setTruancy(Integer.valueOf(rs.getString(6)));
+				studentCheckForm.setLate(Integer.valueOf(rs.getString(7)));
+				studentCheckForm.setLeaveEarly(Integer.valueOf(rs.getString(8)));
+				list.add(studentCheckForm);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 根据科目名查询本学期该科目的考情情况
+	 * @param studentId
+	 * @param subjectId
+	 * @return
+	 */
+	public List<StudentCheckForm> QueryNumberOfLTLL(Integer studentId, Integer subjectId) {
+		List<StudentCheckForm> list = new ArrayList();
+		String sql = "select student.studentname,teacher.teachername,subject.subjectname,attendance.number,attendance.`leave`,attendance.truancy,attendance.late,attendance.leaveEarly from attendance,student,teacher,subject where attendance.student_id='"+studentId+"' and attendance.subject_id='"+subjectId+"' and attendance.student_id=student.id and attendance.teacher_id=teacher.id and attendance.subject_id=subject.id";
+		ResultSet rs = connection.executeQuery(sql);
 		try {
 			while(rs.next()) {
 				studentCheckForm = new StudentCheckForm();

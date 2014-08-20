@@ -25,7 +25,31 @@ public class StudentServlet extends HttpServlet {
 		this.method = Integer.parseInt(request.getParameter("method"));
 		if (method == 0) {
 			this.Select(request, response);
+		} else if (method == 1) {
+			this.SelectBySubject(request, response);
 		}
+	}
+
+	private void SelectBySubject(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		StudentForm studentForm = (StudentForm) request.getSession()
+				.getAttribute("form");
+		Integer subjectId = Integer.valueOf(request.getParameter("subject"));
+		studentDao = new StudentDao();
+		List<StudentCheckForm> studentChecklist = new ArrayList(); // 学生本学期所有考勤情况
+		List<SubjectForm> studentSubjectlist = new ArrayList(); // 学生的学科目录
+		studentChecklist = studentDao.QueryNumberOfLTLL(studentForm.getId(),
+				subjectId);
+		request.setAttribute("studentChecklist", studentChecklist);
+		studentSubjectlist = studentDao.QuerySubject(studentForm.getClasId());
+		request.setAttribute("studentSubjectlist", studentSubjectlist);
+		request.setAttribute("form", studentForm);
+
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("/studentdealwith.jsp");
+		requestDispatcher.forward(request, response);
 	}
 
 	/**
@@ -49,6 +73,7 @@ public class StudentServlet extends HttpServlet {
 		request.setAttribute("studentChecklist", studentChecklist);
 		studentSubjectlist = studentDao.QuerySubject(studentForm.getClasId());
 		request.setAttribute("studentSubjectlist", studentSubjectlist);
+		request.setAttribute("form", studentForm);
 
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("/studentdealwith.jsp");
