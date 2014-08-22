@@ -51,4 +51,13 @@
     <servlet-name>TeacherServlet</servlet-name>
     <url-pattern>/TeacherServlet</url-pattern>
   </servlet-mapping>
+  <servlet> 
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.gdpi.attendance.webiter.AdminServlet</servlet-class>
+  </servlet> 
+	
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/AdminServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

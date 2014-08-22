@@ -1,99 +1,92 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" import="java.util.*"
+	import="com.gdpi.attendance.dao.GreadMajorClassDao"
+	import="com.gdpi.attendance.form.GreadMajorClassForm"
+	import="com.gdpi.attendance.form.SubjectForm" import="java.util.List"
+	import="java.util.ArrayList" pageEncoding="utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<%@ include file="/pages/commons/header.jsp" %>
-<script type="text/javascript">
-	var grid;
-	$(function(){
-		grid = $("#maingrid").ligerGrid({
-			columns:[
-			        {display:"gread",name:"GREAD"}, 
-			        {display:"major",name:"MAJOR"},
-			        {display:"class",name:"CLASS"}
-			         ],
-			         root:"list",height:"100%",
-			         url:'<%=request.getContextPath()%>/user/pageJson',
-	            	pageSize:30 ,rownumbers:true,
-	                toolbar: { items: [
-	                { text: '添加', click: toAdd, icon: 'add' },
-	                { line: true },
-	                { text: '修改', click: toUpdate, icon: 'modify' },
-	                { line: true },
-	                { text: '删除', click: toDelete, img: '<%=request.getContextPath()%>/lib/ligerUI/skins/icons/delete.gif' },
-	                { line: true }
-	                ]
-	                },
-	                checkbox: true	
-		});	
-		 $("#pageloading").hide();
-	});
-	
-	function clickItem(){
-		alert("11");
-	}
-	
-	var addDialog;
-	function toAdd(){
-		addDialog=$.ligerDialog.open({width:450,height:350,url: 'user-New.jsp',title:"增加"});
-	}
-	
-	function toDelete(){
-		var selected = grid.getSelectedRows();
-		if(selected.length==1){
-			var id = grid.getSelectedRow().ID;
-			$.ligerDialog.confirm('确定删除吗？', function (yes) {
-				if(yes){
-	        		$.ajax({
-	        			url:'<%=request.getContextPath()%>/user/doDelete',
-	        			type:"POST",
-	        			data:{"user.id":id},
-	        			dataType:"json",
-	        			success:function(data) {
-	        				$.ligerDialog.success(data.result);
-	        				grid.reload();
-	        			}
-	        		});
-				}
-        	});
-		}else{
-			$.ligerDialog.error("每次只能删除一条");
-		}
-	}
-	
-	var updateDialog
-	function toUpdate(){
-		var selected = grid.getSelectedRows();
-		if(selected.length==1){
-			var id = grid.getSelectedRow().ID;
-			updateDialog=$.ligerDialog.open({width:450,height:350,url: 'user-Update.jsp?id='+id,title:"修改"});
-		}else{
-			$.ligerDialog.error("每次只能修改一条");
-		}
-	}
-	
-	var viewDialog;
-	function toView(){
-		var selected = grid.getSelectedRows();
-		if(selected.length==1){
-			var id = grid.getSelectedRow().ID;
-			viewDialog=$.ligerDialog.open({url: 'userView.jsp?id='+id,title:"查看"});
-		}else{
-			$.ligerDialog.error("每次只能查看一条");
-		}
-	}
+	<head>
+		<title>管理年级、专业、班级的添加、删除、修改等。</title>
+          
 
-</script>
+		<%
+			GreadMajorClassDao greadMajorClassDao = new GreadMajorClassDao();
+			List<GreadMajorClassForm> greadMajorClassList = new ArrayList();
+			greadMajorClassList = (List<GreadMajorClassForm>) session
+					.getAttribute("greadMajorClassForm");
+		%>
+	</head>
 
-</head>
-<body>
-	<div class="l-loading" style="display:block" id="pageloading"></div>
- 	<div class="l-clear"></div>
-	<div id="maingrid"></div>
-	<div style="display:none;"></div>
-	
-</body>
+	<body>
+	<h4>管理年级、专业、班级的添加、删除、修改</h4>
+	<form action="AdminServlet?method=1&sign=1" method="post" >
+	   <tr>
+	             年级<input type="text" name="Grade"/>
+	             年级描述<input type="text" name="GradeDes"/>        <p>
+	             专业<input type="text" name="Major"/>
+	             专业描述<input type="text" name="MajorDes"/>
+	             </p>
+	             班级<input type="text" name="Clas"/>    
+	          <input type="submit" name="添加" value="添加"/>
+	   </tr>
+	</form>
+		<table cellspacing="1" cellpadding="0" width="100%" bgcolor="#5e85b1"
+			border="0">
+			<tbody>
+				<tr>
+					<td>
+						<table cellspacing="0" cellpadding="3" rules="rows"
+							bordercolor="#ADCEEF" border="1" id="AttendanceQuery"
+							width="100%">
+							<tbody>
+								<tr bgcolor="#C1D8F0">
+									<td>
+										年级
+									</td>
+									<td>
+										专业
+									</td>
+									<td>
+										班级
+									</td>
+									<td>
+										操作
+									</td>
+									
+								</tr>
+								<%
+									int z = 0;
+									String color = "";
+									for (int i = 0; i < greadMajorClassList.size(); ++i) {
+										GreadMajorClassForm greadMajorClassForm = new GreadMajorClassForm();
+										greadMajorClassForm = greadMajorClassList.get(i);
+										z = i % 2;
+										if (z != 0) {
+											color = "#00E5EE";
+										} else {
+											color = "#FFFFFF";
+										}
+								%>
+								<tr bgcolor="<%=color%>">
+									<td><%=greadMajorClassForm.getGradename()%></td>
+									<td><%=greadMajorClassForm.getMajorname()%></td>
+									<td><%=greadMajorClassForm.getClasname()%></td>
+									<td><a href="#">修改</a>||<a href="#">删除</a></td>
+				                 <%
+				                 }
+				                 %>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
 </html>

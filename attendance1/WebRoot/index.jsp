@@ -63,13 +63,13 @@
   <tr>
     <td width="76">&nbsp;&nbsp;&nbsp;用户： </td>
     <td width="443">&nbsp;&nbsp;&nbsp; <input name="account" type="text" size="20" maxlength="11" id="account" onBlur="valiusername();"/>
-     <span class="s1" id="username_msg"></span>
+     <span class="s1" id="username_msg" style="font-size:10;font-style:bold;color:red"></span>
     </td>
   </tr>
   <tr>
     <td>&nbsp;&nbsp;&nbsp;密码：</td>
     <td>&nbsp;&nbsp;&nbsp;     <input  name='password' id="password" size="20 " type="password" onBlur="valipwd();"/>
-    <span class="s1" id="pwd_msg"></span></p>
+    <span class="s1" id="pwd_msg" style="font-size:10;font-style:bold;color:red"></span></p>
     </td>
   </tr>
   <tr>
