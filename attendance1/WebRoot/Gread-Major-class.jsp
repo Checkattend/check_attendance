@@ -77,7 +77,7 @@
 									<td><%=greadMajorClassForm.getGradename()%></td>
 									<td><%=greadMajorClassForm.getMajorname()%></td>
 									<td><%=greadMajorClassForm.getClasname()%></td>
-									<td><a href="#">修改</a>||<a href="#">删除</a></td>
+									<td><a href="AdminServlet?method=2&sign=2&classname='"+greadMajorClassForm.getClasname()+"'">修改</a>||<a href="#">删除</a></td>
 				                 <%
 				                 }
 				                 %>

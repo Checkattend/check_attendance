@@ -90,7 +90,12 @@ public class LoginServlet extends HttpServlet {
 					request.getParameter("password"))) {
 				request.setAttribute("information",
 						"Password error,Please Login Again");
-			} else {
+			}else if (!teacherForm.getRoleId().equals(
+					Integer.valueOf(userType)))
+			{
+				request.setAttribute("information",
+				"Role error,Please Login Again");
+			}else {
 				request.setAttribute("form", teacherForm);
 			}
 
