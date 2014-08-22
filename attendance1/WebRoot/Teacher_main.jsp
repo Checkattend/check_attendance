@@ -11,7 +11,7 @@ transitional.dtd">
         	var data = [
             		{ID:1, TEXT:"任课老师", PID:0},
             		{ID:11, TEXT:"个人信息", PID:1, URL:"/TeacherServlet?method=1&sign=1"},
-            		{ID:12, TEXT:"查看考勤", PID:1, URL:"/.jsp"},
+            		{ID:12, TEXT:"查看考勤", PID:1, URL:"/TeacherServlet?method=2&sign=2"},
             		{ID:11, TEXT:"查看授课班级", PID:1, URL:"/TeacherServlet?method=0&sign=0"}
             	];
             $(function ()
