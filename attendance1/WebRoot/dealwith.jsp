@@ -13,6 +13,10 @@
 	      {
 	      	 out.println("<script language=javascript>window.location.href='Student_main.jsp';</script>");
 	      }
+	      if(userType.equals("1"))
+	      {
+	      	 out.println("<script language=javascript>window.location.href='Commissioner_main.jsp';</script>");
+	      }
 	      if(userType.equals("2"))
 	      {
 	      out.println("<script language=javascript>alert('Login Success!!');window.location.href='Teacher_main.jsp';</script>");

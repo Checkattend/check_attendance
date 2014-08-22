@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.gdpi.attendance.form.StudentCheckForm;
 import com.gdpi.attendance.form.StudentForm;
+import com.gdpi.attendance.form.StudentMsgForm;
 import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.tool.JDBConnection;
 
@@ -15,6 +16,7 @@ public class StudentDao {
 	private StudentForm studentForm = null;
 	private StudentCheckForm studentCheckForm = null;
 	private SubjectForm subjectForm = null;
+	private StudentMsgForm studentMsgForm = null;
 
 	/**
 	 * 初始化
@@ -31,9 +33,8 @@ public class StudentDao {
 	 */
 	public StudentForm getStudentForm(String account) {
 		String sql = "select * from student where account='" + account + "'";
+		ResultSet rs = connection.executeQuery(sql);
 		try {
-			ResultSet rs = connection.executeQuery(sql);
-
 			if (rs.next()) {
 				studentForm = new StudentForm();
 				studentForm.setId(Integer.valueOf(rs.getString(1)));
@@ -50,6 +51,26 @@ public class StudentDao {
 		return studentForm;
 	}
 
+	public StudentMsgForm getStudentMsgForm(Integer studentId) {
+		
+		String sql = "select student.account,student.studentname,major.majorname,grade.gradename,clas.classname from student,clas,major,grade where student.id='"+studentId+"' and student.class_id=clas.id and clas.grade_id=grade.id and clas.major_id=major.id";
+		ResultSet rs = connection.executeQuery(sql);
+		try {
+			if (rs.next()) {
+				studentMsgForm = new StudentMsgForm();
+				studentMsgForm.setAccount(rs.getString(1));
+				studentMsgForm.setStudentName(rs.getString(2));
+				studentMsgForm.setMajorName(rs.getString(3));
+				studentMsgForm.setGradeName(Integer.valueOf(rs.getString(4)));
+				studentMsgForm.setClassName(rs.getString(5));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return studentMsgForm;
+	}
+	
 	/**
 	 * 查询该学生本学期所有考勤情况
 	 * 

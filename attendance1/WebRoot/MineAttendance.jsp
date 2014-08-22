@@ -18,7 +18,6 @@
 			Integer truancyTimes = 0;
 			Integer lateTimes = 0;
 			Integer leaveETimes = 0;
-			StudentDao studentDao = new StudentDao();
 			List<StudentCheckForm> studentChecklist = new ArrayList();
 			List<SubjectForm> studentSubjectlist = new ArrayList();
 			studentChecklist = (List<StudentCheckForm>) session
@@ -107,9 +106,9 @@
 										studentCheckForm = studentChecklist.get(i);
 										z = i % 2;
 										if (z != 0) {
-											color = "#00E5EE";
+											color = "#eef3f9";
 										} else {
-											color = "#FFFFFF";
+											color = "#ffffff";
 										}
 								%>
 								<tr bgcolor="<%=color%>">

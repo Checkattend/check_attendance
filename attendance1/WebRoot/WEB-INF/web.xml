@@ -43,6 +43,16 @@
   </servlet-mapping>
   
   <servlet> 
+    <servlet-name>CommissionServlet</servlet-name>
+    <servlet-class>com.gdpi.attendance.webiter.CommissionServlet</servlet-class>
+  </servlet> 
+	
+  <servlet-mapping>
+    <servlet-name>CommissionServlet</servlet-name>
+    <url-pattern>/CommissionServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet> 
     <servlet-name>TeacherServlet</servlet-name>
     <servlet-class>com.gdpi.attendance.webiter.TeacherServlet</servlet-class>
   </servlet> 
