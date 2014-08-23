@@ -30,7 +30,7 @@ public class GreadMajorClassDao  {
 		 */
 		public List<GreadMajorClassForm> QueryNumberOfLTLL() {
 			List<GreadMajorClassForm> list = new ArrayList();
-			String sql = "select grade.gradename,major.majorname,clas.classname from grade,major,clas where clas.grade_id=grade.id and clas.major_id=major.id;";
+			String sql = "select grade.gradename,major.majorname,clas.classname,grade.des,major.des from grade,major,clas where clas.grade_id=grade.id and clas.major_id=major.id;";
 			ResultSet rs = connection.executeQuery(sql);
 			
 			try {
@@ -39,6 +39,8 @@ public class GreadMajorClassDao  {
 					greadMajorClassForm.setGradename(Integer.valueOf(rs.getString(1)));
 					greadMajorClassForm.setMajorname(rs.getString(2));
 					greadMajorClassForm.setClasname(rs.getString(3));
+					greadMajorClassForm.setGradeDes(rs.getString(4));
+					greadMajorClassForm.setMajorDes(rs.getString(5));
 					list.add(greadMajorClassForm);
 				}
 			}catch(SQLException e) {
@@ -46,28 +48,71 @@ public class GreadMajorClassDao  {
 			}
 			return list;
 		}
+		 /**
+		 * 按clasName查询本系年级、专业、班级表
+		 * 
+		 * @param classid
+		 * @return
+		 */
+		public GreadMajorClassForm clasName(String clasName) {
+			greadMajorClassForm = new GreadMajorClassForm();
+			String sql = "select * from grade,major,clas where clas.grade_id=grade.id and clas.major_id=major.id and clas.classname='"+clasName+"'";
+			ResultSet rs = connection.executeQuery(sql);
+			
+			try {
+				while(rs.next()) {
+					greadMajorClassForm = new GreadMajorClassForm();
+					greadMajorClassForm.setGradename(Integer.valueOf(rs.getString(1)));
+					greadMajorClassForm.setMajorname(rs.getString(2));
+					greadMajorClassForm.setClasname(rs.getString(3));
+					greadMajorClassForm.setGradeDes(rs.getString(4));
+					greadMajorClassForm.setMajorDes(rs.getString(5));
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			return greadMajorClassForm;
+		}
 		/**
 		 * 添加年级-专业-班级
 		 * 
 		 * @param classid
 		 * @return
 		 */
-		public int addGreadMajorClassForm(GradeForm gradeForm,MajorForm majorForm,ClasForm clasForm)
+		public int addGreadMajorClassForm(GradeForm gradeForm,MajorForm majorForm,ClasForm clasForm,String add)
 		{
 			int i=0;
-			//添加年级
-			String sql="insert into grade (gradename,des) values('"+gradeForm.getGradename()+"','"+gradeForm.getDes()+"')";
-			i=connection.executeUpdate(sql);
-			//添加专业
-			String sql1="insert into major (majorname,des) values('"+majorForm.getMajorname()+"','"+majorForm.getDes()+"')";
-			i=connection.executeUpdate(sql1);
-			//添加班级
-			int grade_id=getGradeForm(gradeForm.getGradename()).getId();
-			int major_id=getMajorForm(majorForm.getMajorname()).getId();
-			System.out.println(",major_id:"+major_id);
-			String sql2="insert into clas (classname,grade_id,major_id) values('"+clasForm.getClasname()+"','"+grade_id+"','"+major_id+"')";
-			i=connection.executeUpdate(sql2);
-			
+			if(add.equals("1"))
+			{
+				//添加班级
+				if(getGradeForm(gradeForm.getGradename())==null)
+				{
+					String sql="insert into grade (gradename,des) values('"+gradeForm.getGradename()+"','"+gradeForm.getDes()+"')";
+					i=connection.executeUpdate(sql);
+				}
+				String sql2="insert into clas (classname,grade_id,major_id) values('"+clasForm.getClasname()+"','"+getGradeForm(gradeForm.getGradename()).getId()+"','"+getMajorForm(majorForm.getMajorname()).getId()+"')";
+				i=connection.executeUpdate(sql2);
+				
+			}
+			if(add.equals("2"))
+			{
+				//添加专业
+				String sql1="insert into major (majorname,des) values('"+majorForm.getMajorname()+"','"+majorForm.getDes()+"')";
+				i=connection.executeUpdate(sql1);
+			}
+			if(add.equals("3"))
+			{
+				//添加一个新班级
+				int grade_id=getGradeForm(gradeForm.getGradename()).getId();
+				int major_id=getMajorForm(majorForm.getMajorname()).getId();
+				if(getGradeForm(gradeForm.getGradename())==null)
+				{
+					String sql="insert into grade (gradename,des) values('"+gradeForm.getGradename()+"','"+gradeForm.getDes()+"')";
+					i=connection.executeUpdate(sql);
+				}
+				String sql2="insert into clas (classname,grade_id,major_id) values('"+clasForm.getClasname()+"','"+grade_id+"','"+major_id+"')";
+				i=connection.executeUpdate(sql2);
+			}
 			return i;
 		}
 		/**
@@ -100,7 +145,6 @@ public class GreadMajorClassDao  {
 		 */
 		public MajorForm getMajorForm(String majorname) {
 			String sql = "select * from major where major.majorname='"+majorname+"';";
-			System.out.println("majorname"+majorname);
 			ResultSet rs = connection.executeQuery(sql);
 			
 			try {
@@ -115,6 +159,30 @@ public class GreadMajorClassDao  {
 				e.printStackTrace();
 			}
 			return majorForm;
+		}
+		/**
+		 * 查询专业表
+		 * 
+		 * @param classid
+		 * @return
+		 */
+		public List<MajorForm> AllMajorForm() {
+			List<MajorForm> list = new ArrayList();
+			String sql = "select * from major";
+			ResultSet rs = connection.executeQuery(sql);
+			
+			try {
+				while(rs.next()) {
+					majorForm = new MajorForm();
+					majorForm.setId(Integer.valueOf(rs.getString(1)));				
+					majorForm.setMajorname(rs.getString(2));
+					majorForm.setDes(rs.getString(3));
+					list.add(majorForm);
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			return list;
 		}
 		
 }

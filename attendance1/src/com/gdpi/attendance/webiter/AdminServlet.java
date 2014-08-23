@@ -18,10 +18,12 @@ import com.gdpi.attendance.form.GreadMajorClassForm;
 import com.gdpi.attendance.form.MajorForm;
 import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubjectForm;
+import com.gdpi.attendance.tool.Chinese;
 
 public class AdminServlet extends HttpServlet {
 	private int method;
 	private GreadMajorClassDao greadMajorClassDao = null;
+	private Chinese chinese=null;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -30,7 +32,10 @@ public class AdminServlet extends HttpServlet {
 			this.SelectGreadMajorClass(request, response);
 		}else if(method == 1)
 		{
-			this.addGreadMajorClass(request, response);
+			this.AddGreadMajorClass(request, response);
+		}else if(method==2)
+		{
+			this.ModifyGreadMajorClass(request, response);
 		}
 	}
 
@@ -63,7 +68,7 @@ public class AdminServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void addGreadMajorClass(HttpServletRequest request, HttpServletResponse response)
+	public void AddGreadMajorClass(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
@@ -72,21 +77,41 @@ public class AdminServlet extends HttpServlet {
 		MajorForm majorForm=new MajorForm();
 		ClasForm clasForm=new ClasForm();
 		
-		gradeForm.setGradename(Integer.valueOf(request.getParameter("Grade")));
-		gradeForm.setDes(request.getParameter("GradeDes"));
+		String add=request.getParameter("add");
+		if(add.equals("1")||add.equals("3"))
+		{
+			gradeForm.setGradename(Integer.valueOf(request.getParameter("Grade")));
+			gradeForm.setDes(request.getParameter("GradeDes"));
+			clasForm.setClasname(request.getParameter("Clas"));
+		}	
 		majorForm.setMajorname(request.getParameter("Major"));
 		majorForm.setDes(request.getParameter("MajorDes"));
-		clasForm.setClasname(request.getParameter("Clas"));
-		int i=greadMajorClassDao.addGreadMajorClassForm(gradeForm,majorForm,clasForm);
+		int i=greadMajorClassDao.addGreadMajorClassForm(gradeForm,majorForm,clasForm,add);
 		if(i==0)
 		{
 		  request.setAttribute(" information ","添加失败");
 		}
+		
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("/admindealwith.jsp");
 		requestDispatcher.forward(request, response);
 	}
-	
+	/**
+	 * MineAttendan修改年级-专业-班级
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void ModifyGreadMajorClass(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		String classname=request.getParameter("classname");
+		chinese=new Chinese();
+		System.out.println("classname:"+chinese.toChinese(classname));
+	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

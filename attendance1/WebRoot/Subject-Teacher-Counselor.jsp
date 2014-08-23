@@ -8,27 +8,27 @@
 <title>Insert title here</title>
 <%@ include file="/pages/commons/header.jsp" %>
 <script language="JavaScript" type="text/javascript">   
-var city=[   
-["网络一班","网络二班"],   
-["软件java班","软件.net班"],   
-["应用班"],   
-["多媒体"], 
-["软件测试班"]
-];    
-function getCity(){   
-//获得省份下拉框的对象   
-var sltProvince=document.form1.Major;   
-//获得城市下拉框的对象   
-var sltCity=document.form1.Clas;   
-//得到对应省份的城市数组   
-var provinceCity=city[sltProvince.selectedIndex - 1];   
-//清空城市下拉框，仅留提示选项   
-sltCity.length=1;   
-//将城市数组中的值填充到城市下拉框中   
-for(var i=0;i<provinceCity.length;i++){   
-sltCity[i+1]=new Option(provinceCity[i],provinceCity[i]);   
-}   
-}   
+		var city=[   
+		["网络一班","网络二班"],   
+		["软件java班","软件.net班"],   
+		["应用班"],   
+		["多媒体"], 
+		["软件测试班"]
+		];    
+		function getCity(){   
+		//获得省份下拉框的对象   
+		var sltProvince=document.form1.Major;   
+		//获得城市下拉框的对象   
+		var sltCity=document.form1.Clas;   
+		//得到对应省份的城市数组   
+		var provinceCity=city[sltProvince.selectedIndex - 1];   
+		//清空城市下拉框，仅留提示选项   
+		sltCity.length=1;   
+		//将城市数组中的值填充到城市下拉框中   
+		for(var i=0;i<provinceCity.length;i++){   
+		sltCity[i+1]=new Option(provinceCity[i],provinceCity[i]);   
+		}   
+		}   
 </script>
 </head>
 <body>

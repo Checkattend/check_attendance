@@ -22,4 +22,5 @@ public class GraMajClaTeacForm {
 	public void setClassname(String classname) {
 		this.classname = classname;
 	}
+	
 }

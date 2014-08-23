@@ -10,7 +10,6 @@
 	      String information=(String)request.getAttribute("information");
 	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
 	   }else{
-	   
 	      out.println("<script language=javascript>alert('Add Success!!');window.location.href='AdminServlet?method=0&sign=0';</script>");
 	   }
    }
