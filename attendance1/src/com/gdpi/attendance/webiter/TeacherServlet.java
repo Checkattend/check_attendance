@@ -54,7 +54,7 @@ public class TeacherServlet extends HttpServlet {
 				.getAttribute("form");
 		//String check=Chinese.toChinese;
 		int SubId=Integer.parseInt(request.getParameter("SubId"));
-		String check="确认";
+		String check="已确认";
 		Chinese.toChinese(check);
 		//System.out.println(check);
 		

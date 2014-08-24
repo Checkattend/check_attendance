@@ -19,6 +19,6 @@
    if(sign==3)
    {
    session.setAttribute("form",request.getAttribute("form"));
-   out.println("<script language=javascript>alert('Update Success!!');window.location.href='Teacher_viewAttendance.jsp';</script>");
+   out.println("<script language=javascript>alert('Update Success!!');window.location.href='TeacherServlet?method=2&sign=2';</script>");
    }
 %>
