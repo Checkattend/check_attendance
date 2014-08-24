@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<table cellspacing="1" cellpadding="0" width="100%" bgcolor="#5e85b1" border="0">
   		<tbody>
   			<tr><td colspan="7"><div align="center">班级考勤查询</div></td></tr>
-  			<tr bgcolor="#adceef"><td colspan="7"><div><strong>退回的考勤表</strong></div></td></tr>
+  			<tr bgcolor="#adceef"><td colspan="7"><div><strong>退回的考勤表（点击修改）</strong></div></td></tr>
   			<tr>
   				<td>
   					<table id="backAttendance" cellspacing="1" cellpadding="0" width="100%" border="0">
@@ -41,8 +41,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   									String check = subAC.getCheck();
   									if(check.equals("退回")) {
   							%>
-  								<tr>
-  									<td><a style="text-decoration:none" href="CommissionServlet?method=1&sign=1&SubId=<%=subAC.getId() %>"><font color="black"><%=subAC.getFormname() %>【</font><font color="red"><%=subAC.getCheck() %></font><font color="black">】</font></a></td>
+  								<tr bgcolor="ffffff">
+  									<td><a style="text-decoration:none" href="CommissionServlet?method=2&sign=1&SubId=<%=subAC.getId() %>"><font color="black"><%=subAC.getFormname() %>【</font><font color="red"><%=subAC.getCheck() %></font><font color="black">】</font></a></td>
   									<td><%=subAC.getGradename() %></td>
   									<td><%=subAC.getClassname() %></td>
   									<td><%=subAC.getSubjectname() %></td>
@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					</table>
   				</td>
   			</tr>
-  			<tr bgcolor="#adceef"><td colspan="7"><div><strong>未确认的考勤表</strong></div></td></tr>
+  			<tr bgcolor="#adceef"><td colspan="7"><div><strong>未确认的考勤表（点击查看）</strong></div></td></tr>
   			<tr>
   				<td>
   					<table id="backAttendance" cellspacing="1" cellpadding="0" width="100%" border="0">
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   									String check = subAC.getCheck();
   									if(check.equals("未确认")) {
   							%>
-  								<tr>
+  								<tr bgcolor="ffffff">
   									<td><a style="text-decoration:none" href="CommissionServlet?method=2&sign=2&SubId=<%=subAC.getId() %>"><font color="black"><%=subAC.getFormname() %>【</font><font color="red"><%=subAC.getCheck() %></font><font color="black">】</font></a></td>
   									<td><%=subAC.getGradename() %></td>
   									<td><%=subAC.getClassname() %></td>
@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					</table>
   				</td>
   			</tr>
-  			<tr bgcolor="#adceef"><td colspan="7"><div><strong>已确认的考勤表</strong></div></td></tr>
+  			<tr bgcolor="#adceef"><td colspan="7"><div><strong>已确认的考勤表（点击查看）</strong></div></td></tr>
   			<tr>
   				<td>
   					<table id="backAttendance" cellspacing="1" cellpadding="0" width="100%" border="0">
@@ -117,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   									String check = subAC.getCheck();
   									if(check.equals("已确认")) {
   							%>
-  								<tr>
+  								<tr bgcolor="ffffff">
   									<td><a style="text-decoration:none" href="CommissionServlet?method=2&sign=2&SubId=<%=subAC.getId() %>"><font color="black"><%=subAC.getFormname() %>【</font><font color="red"><%=subAC.getCheck() %></font><font color="black">】</font></a></td>
   									<td><%=subAC.getGradename() %></td>
   									<td><%=subAC.getClassname() %></td>

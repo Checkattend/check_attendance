@@ -6,6 +6,15 @@
 		session.setAttribute("form", request.getAttribute("form"));
 		session.setAttribute("SubAClist", request.getAttribute("SubAClist"));
 		out.println("<script language=javascript>window.location.href='ClassAttendance.jsp';</script>");
+	}else if(sign == 1) {
+		session.setAttribute("form", request.getAttribute("form"));
+		session.setAttribute("SubACId", request.getAttribute("SubACId"));
+		session.setAttribute("attendancelist", request.getAttribute("attendancelist"));
+		out.println("<script language=javascript>window.location.href='UpdateAttendance.jsp';</script>");
+	}else if(sign == 2) {
+		session.setAttribute("form", request.getAttribute("form"));
+		session.setAttribute("studentChecklist", request.getAttribute("attendancelist"));
+		out.println("<script language=javascript>window.location.href='StudentAttendance.jsp';</script>");
 	}else if (sign == 3) {
 		session.setAttribute("form", request.getAttribute("form"));
 		session.setAttribute("subjectlist", request.getAttribute("subjectlist"));

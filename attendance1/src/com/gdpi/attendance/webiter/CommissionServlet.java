@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gdpi.attendance.dao.CommissionerDao;
 import com.gdpi.attendance.form.AttendanceForm;
+import com.gdpi.attendance.form.StudentCheckForm;
 import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubAttendanceComForm;
 import com.gdpi.attendance.form.SubAttendanceComIdForm;
@@ -29,13 +30,118 @@ public class CommissionServlet extends HttpServlet {
 		this.method = Integer.parseInt(request.getParameter("method"));
 		if (method == 0) {
 			this.selectClassAttendance(request, response);
+		} else if (method == 1) {
+			this.UpdateAttendance(request, response);
+		} else if (method == 2) {
+			this.selectAttendance(request, response);
 		} else if (method == 3) {
 			this.AddAttendanceForm(request, response);
 		} else if (method == 4) {
 			this.AddAttendance(request, response);
 		}
 	}
+	
+	/**
+	 * 修改考勤表信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void UpdateAttendance(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		StudentForm studentForm = (StudentForm) request.getSession()
+				.getAttribute("form");
+		SubAttendanceComIdForm SubACId = (SubAttendanceComIdForm) request.getSession()
+		.getAttribute("SubACId");
+		Integer leaveA = 0;
+		Integer truancyA = 0;
+		Integer lateA = 0;
+		Integer leaveEarlyA = 0;
+		commissionerDao = new CommissionerDao();
+		List<AttendanceForm> attendancelist = new ArrayList();
+		/* 个人考勤表 */
+		for (int i = 0;; ++i) {
+			Integer leave = 0;
+			Integer truancy = 0;
+			Integer late = 0;
+			Integer leaveEarly = 0;
+			AttendanceForm attendanceForm = new AttendanceForm();
+			String attd = request.getParameter("R" + i);
+			if (attd == null)
+				break;
+			if (attd.equals("leave")) {
+				++leaveA;
+				leave = 1;
+			} else if (attd.equals("truancy")) {
+				++truancyA;
+				truancy = 1;
+			} else if (attd.equals("late")) {
+				++lateA;
+				late = 1;
+			} else if (attd.equals("leaveEarly")) {
+				++leaveEarlyA;
+				leaveEarly = 1;
+			}
+			attendanceForm.setId(Integer.valueOf(request.getParameter("id"+i)));
+			attendanceForm.setLeave(leave);
+			attendanceForm.setTruancy(truancy);
+			attendanceForm.setLate(late);
+			attendanceForm.setLeaveEarly(leaveEarly);
+			attendancelist.add(attendanceForm);
+		}
+		SubACId.setLeave(leaveA);
+		SubACId.setTruancy(truancyA);
+		SubACId.setLate(lateA);
+		SubACId.setLeaveEarly(leaveEarlyA);
+		SubACId.setCheck("未确认");
+		
+		commissionerDao.UpdateAttendance(attendancelist);
+		commissionerDao.UpdateSubAttendance(SubACId);
+		request.setAttribute("form", studentForm);
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("/commissiondealwith.jsp");
+		requestDispatcher.forward(request, response);
+	}
+	
+	/**
+	 * 查询考勤表详细信息
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void selectAttendance(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		StudentForm studentForm = (StudentForm) request.getSession()
+				.getAttribute("form");
+		Integer SubId = Integer.valueOf(request.getParameter("SubId"));
+		commissionerDao = new CommissionerDao();
+		SubAttendanceComIdForm SubACId = new SubAttendanceComIdForm();
+		List<StudentCheckForm> attendancelist = new ArrayList();
+		SubACId = commissionerDao.SelectSubAC(SubId);
+		attendancelist = commissionerDao.QueryNumberOfLTLL(studentForm
+				.getClasId(), SubACId.getSubjectId(), SubACId.getNumber());
+		request.setAttribute("SubACId", SubACId);
+		request.setAttribute("attendancelist", attendancelist);
+		request.setAttribute("form", studentForm);
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("/commissiondealwith.jsp");
+		requestDispatcher.forward(request, response);
+	}
 
+	/**
+	 * 添加考勤信息表
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void AddAttendance(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -56,7 +162,7 @@ public class CommissionServlet extends HttpServlet {
 			Integer late = 0;
 			Integer leaveEarly = 0;
 			AttendanceForm attendanceForm = new AttendanceForm();
-			String attd = request.getParameter("R"+i);
+			String attd = request.getParameter("R" + i);
 			if (attd == null)
 				break;
 			if (attd.equals("leave")) {

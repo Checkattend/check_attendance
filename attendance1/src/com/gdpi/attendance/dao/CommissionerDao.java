@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gdpi.attendance.form.AttendanceForm;
+import com.gdpi.attendance.form.StudentCheckForm;
 import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubAttendanceComForm;
 import com.gdpi.attendance.form.SubAttendanceComIdForm;
@@ -22,6 +23,7 @@ public class CommissionerDao {
 	private TeacherForm teacherForm = null;
 	private SubjectForm subjectForm = null;
 	private AttendanceForm attendanceForm = null;
+	private StudentCheckForm studentCheckForm = null;
 	
 	/**
 	 * 初始化
@@ -40,7 +42,7 @@ public class CommissionerDao {
 		String sql = "select subattendance.formname,grade.gradename,clas.classname,subject.subjectname,teacher.teachername,subattendance.thedate,subattendance.`leave`,subattendance.truancy,subattendance.late,subattendance.leaveEarly,subattendance.`check`,subattendance.id from subattendance,grade,clas,subject,teacher where subattendance.class_id='"+classId+"' and clas.grade_id=grade.id and subattendance.class_id=clas.id and subattendance.subject_id=subject.id and subattendance.teacher_id=teacher.id order by subattendance.thedate";
 		ResultSet rs = connection.executeQuery(sql);
 		try {
-			if (rs.next()) {
+			while (rs.next()) {
 				subAC = new SubAttendanceComForm();
 				subAC.setFormname(rs.getString(1));
 				subAC.setGradename(Integer.valueOf(rs.getString(2)));
@@ -147,8 +149,88 @@ public class CommissionerDao {
 		}
 	}
 	
+	/**
+	 * 考勤表总信息登记
+	 * @param subACId
+	 */
 	public void InsertSubAttendance(SubAttendanceComIdForm subACId) {
 			String sql = "insert into subattendance(formname,class_id,subject_id,teacher_id,thedate,subattendance.`leave`,truancy,late,leaveEarly,subattendance.`check`,number) values('"+subACId.getFormname()+"','"+subACId.getClassId()+"','"+subACId.getSubjectId()+"','"+subACId.getTeacherId()+"',now(),'"+subACId.getLeave()+"','"+subACId.getTruancy()+"','"+subACId.getLate()+"','"+subACId.getLeaveEarly()+"','"+subACId.getCheck()+"','"+subACId.getNumber()+"')";
+			connection.executeUpdate(sql);
+	}
+	
+	/**
+	 * 查询考勤表的课程id，和课时
+	 * @param SubId
+	 * @return
+	 */
+	public SubAttendanceComIdForm SelectSubAC(Integer SubId) {
+		subACId = new SubAttendanceComIdForm();
+		String sql = "select subject_id,number,subattendance.id from subattendance where subattendance.id='"+SubId+"'";
+		ResultSet rs = connection.executeQuery(sql);
+		try {
+			if(rs.next()) {
+				subACId.setSubjectId(Integer.valueOf(rs.getString(1)));
+				subACId.setNumber(Integer.valueOf(rs.getString(2)));
+				subACId.setId(Integer.valueOf(rs.getString(3)));
+				
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return subACId;
+	}
+	
+	/**
+	 * 查询单课程考勤情况
+	 * @param classId
+	 * @param subjectId
+	 * @param number
+	 * @return
+	 */
+	public List<StudentCheckForm> QueryNumberOfLTLL(Integer classId, Integer subjectId, Integer number) {
+		List<StudentCheckForm> list = new ArrayList();
+		String sql = "select attendance.id,student.account,student.studentname,teacher.teachername,subject.subjectname,attendance.number,attendance.`leave`,attendance.truancy,attendance.late,attendance.leaveEarly from attendance,student,teacher,subject where attendance.class_id='"+classId+"' and attendance.subject_id='"+subjectId+"' and attendance.number='"+number+"' and attendance.student_id=student.id and attendance.teacher_id=teacher.id and attendance.subject_id=subject.id";
+		ResultSet rs = connection.executeQuery(sql);
+		try {
+			while(rs.next()) {
+				studentCheckForm = new StudentCheckForm();
+				studentCheckForm.setId(Integer.valueOf(rs.getString(1)));
+				studentCheckForm.setAccount(rs.getString(2));
+				studentCheckForm.setStudentName(rs.getString(3));
+				studentCheckForm.setTeacherName(rs.getString(4));
+				studentCheckForm.setSubjectName(rs.getString(5));
+				studentCheckForm.setClassHour(Integer.valueOf(rs.getString(6)));
+				studentCheckForm.setLeave(Integer.valueOf(rs.getString(7)));
+				studentCheckForm.setTruancy(Integer.valueOf(rs.getString(8)));
+				studentCheckForm.setLate(Integer.valueOf(rs.getString(9)));
+				studentCheckForm.setLeaveEarly(Integer.valueOf(rs.getString(10)));
+				list.add(studentCheckForm);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	/**
+	 * 个人考勤修改
+	 * @param list
+	 */
+	public void UpdateAttendance(List<AttendanceForm> list) {
+		for(int i = 0; i < list.size(); ++i) {
+			attendanceForm = new AttendanceForm();
+			attendanceForm = list.get(i);
+			String sql = "update attendance set attendance.`leave`='"+attendanceForm.getLeave()+"',truancy='"+attendanceForm.getTruancy()+"',late='"+attendanceForm.getLate()+"',leaveEarly='"+attendanceForm.getLeaveEarly()+"' where attendance.id='"+attendanceForm.getId()+"'";
+			connection.executeUpdate(sql);
+		}
+	}
+	
+	/**
+	 * 考勤表总信息修改
+	 * @param subACId
+	 */
+	public void UpdateSubAttendance(SubAttendanceComIdForm subACId) {
+			String sql = "update subattendance set subattendance.`leave`='"+subACId.getLeave()+"',truancy='"+subACId.getTruancy()+"',late='"+subACId.getLate()+"',leaveEarly='"+subACId.getLeaveEarly()+"',thedate=now(),subattendance.`check`='"+subACId.getCheck()+"' where subattendance.id='"+subACId.getId()+"'";
 			connection.executeUpdate(sql);
 	}
 }

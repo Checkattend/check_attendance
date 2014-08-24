@@ -1,8 +1,7 @@
 <%@ page language="java" import="java.util.*"
 	import="com.gdpi.attendance.dao.StudentDao"
 	import="com.gdpi.attendance.form.StudentCheckForm"
-	import="com.gdpi.attendance.form.SubjectForm" import="java.util.List"
-	import="java.util.ArrayList" pageEncoding="utf-8"%>
+	pageEncoding="utf-8"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -19,11 +18,8 @@
 			Integer lateTimes = 0;
 			Integer leaveETimes = 0;
 			List<StudentCheckForm> studentChecklist = new ArrayList();
-			List<SubjectForm> studentSubjectlist = new ArrayList();
 			studentChecklist = (List<StudentCheckForm>) session
 					.getAttribute("studentChecklist");
-			studentSubjectlist = (List<SubjectForm>) session
-					.getAttribute("studentSubjectlist");
 		%>
 	</head>
 
@@ -33,48 +29,13 @@
 			<tbody>
 				<tr>
 					<td>
-						<form name="subjectF" id="subject" method="post"
-							action="StudentServlet?method=1&sign=0">
-							<table id="sbycategory" cellspacing="1" cellpadding="0"
-								width="100%" border="0">
-								<tbody>
-									<tr>
-										<td>
-											查询条件
-										</td>
-									</tr>
-									<tr>
-										<td>
-											课程名称:
-											<select name="subject" id="subject">
-												<%
-													for (int i = 0; i < studentSubjectlist.size(); ++i) {
-														SubjectForm subjectForm = new SubjectForm();
-														subjectForm = studentSubjectlist.get(i);
-												%>
-												<option value="<%=subjectForm.getId()%>"><%=subjectForm.getSubjectname()%></option>
-												<%
-													}
-												%>
-											</select>
-											<input type="submit" name="QueryB" id="QueryB"
-												value="按课程名称查询">
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</form>
-					</td>
-				</tr>
-				<tr>
-					<td>
 						<table cellspacing="0" cellpadding="3" rules="rows"
 							bordercolor="#ADCEEF" border="1" id="AttendanceQuery"
 							width="100%">
 							<tbody>
 								<tr bgcolor="#C1D8F0">
-									<td>
-										姓名
+									<td> 
+										姓名 
 									</td>
 									<td>
 										任课老师
@@ -138,7 +99,10 @@
 								width="100%" border="0" bgcolor="#ADCEEF">
 							<tbody>
 								<tr>
-									<td>出勤统计：请假&nbsp;<%=leaveTimes %>&nbsp;&nbsp;旷课&nbsp;<%=truancyTimes %>&nbsp;&nbsp;迟到&nbsp;<%=lateTimes %>&nbsp;&nbsp;早退&nbsp;<%=leaveETimes %></td>
+									<td>
+										出勤统计：请假&nbsp;<%=leaveTimes %>&nbsp;&nbsp;旷课&nbsp;<%=truancyTimes %>&nbsp;&nbsp;迟到&nbsp;<%=lateTimes %>&nbsp;&nbsp;早退&nbsp;<%=leaveETimes %>
+										<input type="button" value="返回" onclick="javascript:window.location.href='CommissionServlet?method=0&sign=0'" />
+									</td>
 								</tr>
 							</tbody>
 						</table>
