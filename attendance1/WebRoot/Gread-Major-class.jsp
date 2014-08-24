@@ -70,7 +70,8 @@
 									<td><%=greadMajorClassForm.getMajorname()%></td>
 									<td><%=greadMajorClassForm.getMajorDes()%></td>
 									<td><%=greadMajorClassForm.getClasname()%></td>
-									<td><a href="AdminServlet?method=2&sign=2&classname=<%=greadMajorClassForm.getClasname()%>">修改</a>||<a href="#">删除</a></td>
+									<td><a href="AdminServlet?method=2&sign=2&modify=1&clasId=<%=greadMajorClassForm.getClasId()%>&gradeId=<%=greadMajorClassForm.getGradeId() %>&majorId=<%=greadMajorClassForm.getMajorId() %>">修改</a>
+									||<a href="AdminServlet?method=3&sign=4&clasId=<%=greadMajorClassForm.getClasId()%>">删除</a></td>
 				                 <%
 				                 }
 				                 %>

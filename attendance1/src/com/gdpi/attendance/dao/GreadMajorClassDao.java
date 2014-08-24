@@ -30,7 +30,7 @@ public class GreadMajorClassDao  {
 		 */
 		public List<GreadMajorClassForm> QueryNumberOfLTLL() {
 			List<GreadMajorClassForm> list = new ArrayList();
-			String sql = "select grade.gradename,major.majorname,clas.classname,grade.des,major.des from grade,major,clas where clas.grade_id=grade.id and clas.major_id=major.id;";
+			String sql = "select grade.gradename,major.majorname,clas.classname,grade.des,major.des,clas.id,grade.id,major.id from grade,major,clas where clas.grade_id=grade.id and clas.major_id=major.id;";
 			ResultSet rs = connection.executeQuery(sql);
 			
 			try {
@@ -41,6 +41,9 @@ public class GreadMajorClassDao  {
 					greadMajorClassForm.setClasname(rs.getString(3));
 					greadMajorClassForm.setGradeDes(rs.getString(4));
 					greadMajorClassForm.setMajorDes(rs.getString(5));
+					greadMajorClassForm.setClasId(Integer.valueOf(rs.getString(6)));
+					greadMajorClassForm.setGradeId(Integer.valueOf(rs.getString(7)));
+					greadMajorClassForm.setMajorId(Integer.valueOf(rs.getString(8)));
 					list.add(greadMajorClassForm);
 				}
 			}catch(SQLException e) {
@@ -183,6 +186,76 @@ public class GreadMajorClassDao  {
 				e.printStackTrace();
 			}
 			return list;
+		}
+		/**
+		 * 按班级名-专业名-年级名查询整个表
+		 * 
+		 * @param classid
+		 * @return
+		 */
+		public GreadMajorClassForm GreadMajorClassForm(GreadMajorClassForm greadMajorClassForm) {
+			String sql = "select grade.gradename,major.majorname,clas.classname,grade.des,major.des,clas.id,grade.id,major.id  from clas,grade,major where clas.id='"+greadMajorClassForm.getClasId()+"' and grade.id='"+greadMajorClassForm.getGradeId()+"' and major.id='"+greadMajorClassForm.getMajorId()+"'and clas.grade_id=grade.id and clas.major_id=major.id";
+			ResultSet rs = connection.executeQuery(sql);
+			
+			try {
+				while(rs.next()) {
+					greadMajorClassForm = new GreadMajorClassForm();
+					greadMajorClassForm.setGradename(Integer.valueOf(rs.getString(1)));
+					greadMajorClassForm.setMajorname(rs.getString(2));
+					greadMajorClassForm.setClasname(rs.getString(3));
+					greadMajorClassForm.setGradeDes(rs.getString(4));
+					greadMajorClassForm.setMajorDes(rs.getString(5));
+					greadMajorClassForm.setClasId(Integer.valueOf(rs.getString(6)));
+					greadMajorClassForm.setGradeId(Integer.valueOf(rs.getString(7)));
+					greadMajorClassForm.setMajorId(Integer.valueOf(rs.getString(8)));
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			return greadMajorClassForm;
+		}
+		
+		/**
+		 * 修改
+		 * 
+		 * @param classid
+		 * @return
+		 */
+		public int updateGreadMajorClassForm(GreadMajorClassForm greadMajorClassForm) {
+			int i=0;
+			String sql = "update clas,grade,major set clas.classname='"+greadMajorClassForm.getClasname()+"'" +
+					",grade.gradename='"+greadMajorClassForm.getGradename()+"',major.majorname='"+greadMajorClassForm.getMajorname()+
+					"',grade.des='"+greadMajorClassForm.getGradeDes()+"',major.des='"+greadMajorClassForm.getMajorDes()+
+					"' where clas.id='"+greadMajorClassForm.getClasId()+"' and grade.id='"+greadMajorClassForm.getGradeId()+"' and major.id='"+greadMajorClassForm.getMajorId()+"'";
+			i=connection.executeUpdate(sql);
+			return i;
+		}
+		/**
+		 * 删除
+		 * 
+		 * @param classid
+		 * @return
+		 */
+		public int deleteGreadMajorClassForm(String clasId) {
+			int flag=0;
+			String sql = "delete from sub_class where sub_class.class_id='"+clasId+"'";
+			int i=connection.executeUpdate(sql);//删除sub_class
+			String sql1 = "delete from class_teacher where class_teacher.class_id='"+clasId+"'";
+			int j=connection.executeUpdate(sql1);//删除sub_class
+			String sql2 = "delete from attendance where attendance.class_id='"+clasId+"'";
+			int k=connection.executeUpdate(sql2);//删除attendance
+			String sql3 = "delete from attendance where attendance.student_id in(select student.id from student where student.class_id='"+clasId+"')";
+			int l=connection.executeUpdate(sql3);//删除attendance
+			String sql4 = "delete from student where student.class_id='"+clasId+"'";
+			int m=connection.executeUpdate(sql4);//删除student
+			String sql5 = "delete from clas where clas.id='"+clasId+"'";
+			int n=connection.executeUpdate(sql5);//删除clas
+			if(i!=0||j!=0||k!=0||l!=0||m!=0||n!=0)
+			{
+				++flag;
+			}
+			
+			return flag;
 		}
 		
 }

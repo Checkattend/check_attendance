@@ -61,7 +61,7 @@
            GreadMajorClassForm greadMajorClassForm = new GreadMajorClassForm();
            greadMajorClassForm = greadMajorClassList.get(i);
         %>  
-         <OPTION VALUE="<%=greadMajorClassForm.getClasname()%> %>"><%=greadMajorClassForm.getClasname()%> </OPTION>  
+         <OPTION VALUE="<%=greadMajorClassForm.getClasname()%>"><%=greadMajorClassForm.getClasname()%> </OPTION>  
         <%
            }
         %>   
