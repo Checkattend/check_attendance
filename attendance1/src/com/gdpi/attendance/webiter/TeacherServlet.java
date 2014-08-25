@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.gdpi.attendance.dao.TeacherDao;
 import com.gdpi.attendance.form.GraMajClaTeacForm;
+import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.SubAttendanceComForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.Chinese;
@@ -40,8 +41,49 @@ public class TeacherServlet extends HttpServlet {
 		{
 			this.back(request, response);//退回考勤
 		}
+		if(method==5)
+		{
+			this.Allattendance(request, response);//查看所教班级学生整个学期的出勤
+		}
 	}
-    
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+	public void Allattendance(HttpServletRequest request,
+			HttpServletResponse response)throws ServletException, IOException
+			{
+		request.setCharacterEncoding("utf-8");
+		System.out.println("Allattendance method");
+		TeacherForm teacherForm = (TeacherForm) request.getSession()
+				.getAttribute("form");
+		String teachername = teacherForm.getTeachername();
+		teacherDao = new TeacherDao();
+		//查询所有年级
+			List<GradeForm> gradelist = new ArrayList();
+			gradelist=teacherDao.getGrade();
+		// 查询授课班级
+			List<GraMajClaTeacForm>gmcTeacherlist=new ArrayList();
+			gmcTeacherlist = teacherDao.getTeachClass(teachername);
+			
+			request.setAttribute("gradelist", gradelist);	
+	        request.setAttribute("gmcTeacherlist", gmcTeacherlist);
+	        request.setAttribute("form", teacherForm);
+			RequestDispatcher requestDispatcher = request
+					.getRequestDispatcher("/TeacherDealwith.jsp");
+			requestDispatcher.forward(request, response);
+		
+			}
+	/**
+	 * back method
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void back(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException
 			{
@@ -153,13 +195,10 @@ public class TeacherServlet extends HttpServlet {
 	public void findOwner(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		// HttpSession session=request.getSession();
 		System.out.println("findOwner");
 		TeacherForm teacherForm = (TeacherForm) request.getSession()
 				.getAttribute("form");
 		String account = teacherForm.getAccount();
-		// session.setAttribute("account1", account);
-		// String account1=(String)session.getAttribute("account1");
 		System.out.println("findOwner method " + account);
 		// 查询个人信息
 		teacherDao = new TeacherDao();

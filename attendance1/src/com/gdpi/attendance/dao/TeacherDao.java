@@ -4,7 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GraMajClaTeacForm;
+import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.SubAttendanceComForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.JDBConnection;
@@ -14,6 +17,7 @@ public class TeacherDao {
 	private TeacherForm teacherForm = null;
 	private GraMajClaTeacForm gmctForm = null;
 	private SubAttendanceComForm subAttendance = null;
+	private GradeForm gradeForm=null;
 
 	public TeacherDao() {
 		connection = new JDBConnection();
@@ -41,6 +45,28 @@ public class TeacherDao {
 
 	}
 
+	public List getGrade() {
+
+		List<GradeForm> list = new ArrayList();
+		String sql = "select * from grade";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+	      while (rs.next()) {
+				gradeForm = new GradeForm();
+				gradeForm.setId(Integer.valueOf(rs.getString(1)));
+				gradeForm.setGradename(Integer.valueOf(rs.getString(2)));
+				gradeForm.setDes(rs.getString(3));
+				list.add(gradeForm);
+				//System.out.println(gradeForm.getGradename()+"aa");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// connection.close();
+		return list;
+	}
+
 	// 查询授课班级
 	public List getTeachClass(String teachername) {
 
@@ -51,12 +77,13 @@ public class TeacherDao {
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 
-			if (rs.next()) {
+			while (rs.next()) {
 				gmctForm = new GraMajClaTeacForm();
 				gmctForm.setGradename(rs.getString(1));
 				gmctForm.setMajorname(rs.getString(2));
 				gmctForm.setClassname(rs.getString(3));
 				list.add(gmctForm);
+				System.out.println(gmctForm.getClassname());
 			}
 
 		} catch (SQLException e) {
@@ -73,7 +100,7 @@ public class TeacherDao {
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 
-			if (rs.next()) {
+			while (rs.next()) {
 				subAttendance = new SubAttendanceComForm();
 				subAttendance.setGradename(Integer.valueOf(rs.getString(1)));
 				subAttendance.setFormname(rs.getString(2));

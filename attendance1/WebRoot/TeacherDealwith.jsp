@@ -26,4 +26,11 @@
    session.setAttribute("form",request.getAttribute("form"));
    out.println("<script language=javascript>window.location.href='TeacherServlet?method=2&sign=2';</script>");
    }
+    if(sign==5)
+   {
+   session.setAttribute("form",request.getAttribute("form"));
+    session.setAttribute("gradelist",request.getAttribute("gradelist"));
+    session.setAttribute("gmcTeacherlist",request.getAttribute("gmcTeacherlist"));
+   out.println("<script language=javascript>window.location.href='Teacher_viewAll.jsp';</script>");
+   }
 %>
