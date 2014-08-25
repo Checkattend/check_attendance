@@ -36,8 +36,31 @@ public class TeacherServlet extends HttpServlet {
 		if (method == 3) {
 			this.commit(request, response);// 确认考勤
 		}
+		if(method==4)
+		{
+			this.back(request, response);//退回考勤
+		}
 	}
-
+    
+	public void back(HttpServletRequest request,
+			HttpServletResponse response)throws ServletException, IOException
+			{
+		request.setCharacterEncoding("utf-8");
+		System.out.println("back method");
+		TeacherForm teacherForm = (TeacherForm) request.getSession()
+				.getAttribute("form");
+		int SubId=Integer.parseInt(request.getParameter("SubId"));
+		String check="退回";
+		Chinese.toChinese(check);
+		teacherDao = new TeacherDao();
+		teacherDao.ToCommit(check,SubId);
+		request.setAttribute("form", teacherForm);
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("/TeacherDealwith.jsp");
+		requestDispatcher.forward(request, response);
+			}
+	
+	
 	/**
 	 * commit method
 	 * @param request
@@ -52,12 +75,9 @@ public class TeacherServlet extends HttpServlet {
 		System.out.println("commit method");
 		TeacherForm teacherForm = (TeacherForm) request.getSession()
 				.getAttribute("form");
-		//String check=Chinese.toChinese;
 		int SubId=Integer.parseInt(request.getParameter("SubId"));
 		String check="已确认";
 		Chinese.toChinese(check);
-		//System.out.println(check);
-		
 		teacherDao = new TeacherDao();
 		teacherDao.ToCommit(check,SubId);
 		request.setAttribute("form", teacherForm);
