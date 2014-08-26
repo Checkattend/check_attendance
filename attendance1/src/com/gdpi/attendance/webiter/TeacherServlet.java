@@ -9,9 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.gdpi.attendance.dao.TeacherDao;
+import com.gdpi.attendance.form.AllattendanceForm;
+import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GraMajClaTeacForm;
 import com.gdpi.attendance.form.GradeForm;
+import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubAttendanceComForm;
+import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.Chinese;
 
@@ -37,96 +41,133 @@ public class TeacherServlet extends HttpServlet {
 		if (method == 3) {
 			this.commit(request, response);// 确认考勤
 		}
-		if(method==4)
-		{
-			this.back(request, response);//退回考勤
+		if (method == 4) {
+			this.back(request, response);// 退回考勤
 		}
-		if(method==5)
-		{
-			this.Allattendance(request, response);//查看所教班级学生整个学期的出勤
+		if (method == 5) {
+			this.Allattendance(request, response);// 按条件查询
+		}
+		if (method == 6) {
+			this.selectAll(request, response);// 查询整个学期学生的考勤
 		}
 	}
-    /**
-     * 
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
+
+	/**
+	 * selectAll method
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void selectAll(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		System.out.println("selectAll method");
+		TeacherForm teacherForm = (TeacherForm) request.getSession()
+		.getAttribute("form");
+     	String grade= request.getParameter("grade");
+		String clas= request.getParameter("clas");
+		String subject=request.getParameter("subject");
+		teacherDao = new TeacherDao();
+		GradeForm gradeform=new GradeForm();
+		ClasForm classform=new ClasForm();
+		SubjectForm subjectform=new SubjectForm();
+		int gradeID=teacherDao.getgradeID(grade);
+		int classID=teacherDao.getclassID(clas);
+		int subjectID=teacherDao.getsubjectID(subject);
+	    List<AllattendanceForm> list = new ArrayList();
+		list=teacherDao.selectAtt(gradeID,classID,subjectID);
+		request.setAttribute("list", list);
+		request.setAttribute("form", teacherForm);
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("/TeacherDealwith.jsp");
+		requestDispatcher.forward(request, response);
+	}
+	
+	/**
+	 *     Allattendance method
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void Allattendance(HttpServletRequest request,
-			HttpServletResponse response)throws ServletException, IOException
-			{
+			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		System.out.println("Allattendance method");
 		TeacherForm teacherForm = (TeacherForm) request.getSession()
 				.getAttribute("form");
 		String teachername = teacherForm.getTeachername();
 		teacherDao = new TeacherDao();
-		//查询所有年级
-			List<GradeForm> gradelist = new ArrayList();
-			gradelist=teacherDao.getGrade();
+		// 查询所有年级
+		List<GradeForm> gradelist = new ArrayList();
+		gradelist = teacherDao.getGrade();
 		// 查询授课班级
-			List<GraMajClaTeacForm>gmcTeacherlist=new ArrayList();
-			gmcTeacherlist = teacherDao.getTeachClass(teachername);
-			
-			request.setAttribute("gradelist", gradelist);	
-	        request.setAttribute("gmcTeacherlist", gmcTeacherlist);
-	        request.setAttribute("form", teacherForm);
-			RequestDispatcher requestDispatcher = request
-					.getRequestDispatcher("/TeacherDealwith.jsp");
-			requestDispatcher.forward(request, response);
-		
-			}
+		List<GraMajClaTeacForm> gmcTeacherlist = new ArrayList();
+		gmcTeacherlist = teacherDao.getTeachClas(teachername);
+		//查询所教课程
+		List<SubjectForm> subjectlist=new ArrayList();
+		subjectlist=teacherDao.getSubject(teachername);
+		request.setAttribute("subjectlist", subjectlist);
+		request.setAttribute("gradelist", gradelist);
+		request.setAttribute("gmcTeacherlist", gmcTeacherlist);
+		request.setAttribute("form", teacherForm);
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("/TeacherDealwith.jsp");
+		requestDispatcher.forward(request, response);
+
+	}
+
 	/**
 	 * back method
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void back(HttpServletRequest request,
-			HttpServletResponse response)throws ServletException, IOException
-			{
+	public void back(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		System.out.println("back method");
 		TeacherForm teacherForm = (TeacherForm) request.getSession()
 				.getAttribute("form");
-		int SubId=Integer.parseInt(request.getParameter("SubId"));
-		String check="退回";
+		int SubId = Integer.parseInt(request.getParameter("SubId"));
+		String check = "退回";
 		Chinese.toChinese(check);
 		teacherDao = new TeacherDao();
-		teacherDao.ToCommit(check,SubId);
+		teacherDao.ToCommit(check, SubId);
 		request.setAttribute("form", teacherForm);
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("/TeacherDealwith.jsp");
 		requestDispatcher.forward(request, response);
-			}
-	
-	
+	}
+
 	/**
 	 * commit method
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void commit(HttpServletRequest request,
-			HttpServletResponse response)throws ServletException, IOException
-			{
+	public void commit(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		System.out.println("commit method");
 		TeacherForm teacherForm = (TeacherForm) request.getSession()
 				.getAttribute("form");
-		int SubId=Integer.parseInt(request.getParameter("SubId"));
-		String check="已确认";
+		int SubId = Integer.parseInt(request.getParameter("SubId"));
+		String check = "已确认";
 		Chinese.toChinese(check);
 		teacherDao = new TeacherDao();
-		teacherDao.ToCommit(check,SubId);
+		teacherDao.ToCommit(check, SubId);
 		request.setAttribute("form", teacherForm);
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("/TeacherDealwith.jsp");
 		requestDispatcher.forward(request, response);
-			}
+	}
+
 	/**
 	 * checkAttendance method
 	 * 
@@ -146,7 +187,7 @@ public class TeacherServlet extends HttpServlet {
 		List<SubAttendanceComForm> subAttendance = new ArrayList();
 		// 查看班级考勤
 		subAttendance = teacherDao.getsSubAttendance(teacher_id);
-		request.setAttribute("subAttendance",subAttendance);
+		request.setAttribute("subAttendance", subAttendance);
 		request.setAttribute("form", teacherForm);
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("/TeacherDealwith.jsp");

@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdpi.attendance.form.AllattendanceForm;
 import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GraMajClaTeacForm;
 import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.SubAttendanceComForm;
+import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.JDBConnection;
 
@@ -18,7 +20,9 @@ public class TeacherDao {
 	private GraMajClaTeacForm gmctForm = null;
 	private SubAttendanceComForm subAttendance = null;
 	private GradeForm gradeForm=null;
-
+    private SubjectForm subjectForm=null;
+    private ClasForm classForm=null;
+    private AllattendanceForm allattendanceForm=null;
 	public TeacherDao() {
 		connection = new JDBConnection();
 	}
@@ -44,7 +48,7 @@ public class TeacherDao {
 		return teacherForm;
 
 	}
-
+    //获取年级
 	public List getGrade() {
 
 		List<GradeForm> list = new ArrayList();
@@ -66,24 +70,18 @@ public class TeacherDao {
 		// connection.close();
 		return list;
 	}
-
-	// 查询授课班级
-	public List getTeachClass(String teachername) {
-
-		List<GraMajClaTeacForm> list = new ArrayList();
-		String sql = "select grade.gradename ,major.majorname,clas.classname from teacher,clas,major,grade where teacher.teachername='"
-				+ teachername
-				+ "' and teacher.id=clas.id and clas.major_id=major.id and clas.grade_id=grade.id";
+     //获取所教课程
+	public List getSubject(String teachername)
+	{
+		List<SubjectForm> list = new ArrayList();
+		String sql="select `subject`.subjectname from `subject`,teacher,teacher_sub where teacher.teachername='"+teachername+"' and teacher_sub.subject_id=`subject`.id and teacher_sub.teacher_id=teacher.id ";
 		try {
 			ResultSet rs = connection.executeQuery(sql);
-
-			while (rs.next()) {
-				gmctForm = new GraMajClaTeacForm();
-				gmctForm.setGradename(rs.getString(1));
-				gmctForm.setMajorname(rs.getString(2));
-				gmctForm.setClassname(rs.getString(3));
-				list.add(gmctForm);
-				System.out.println(gmctForm.getClassname());
+	      while (rs.next()) {
+	    	  subjectForm = new SubjectForm();
+	    	  subjectForm.setSubjectname(rs.getString(1));
+				list.add(subjectForm);
+				//System.out.println(gradeForm.getGradename()+"aa");
 			}
 
 		} catch (SQLException e) {
@@ -92,8 +90,52 @@ public class TeacherDao {
 		// connection.close();
 		return list;
 	}
+	// 查询授课班级和课程
+	public List getTeachClass(String teachername) {
 
-	// 查看班级考勤
+		List<GraMajClaTeacForm> list = new ArrayList();
+		String sql = "select grade.gradename ,major.majorname,clas.classname ,`subject`.subjectname from teacher,clas,major,grade,class_teacher,`subject` ,teacher_sub where teacher.teachername='"+teachername+"'  and teacher_sub.subject_id=`subject`.id and teacher_sub.teacher_id=teacher.id and teacher_sub.subject_id=`subject`.id and teacher.id= class_teacher.teacher_id and clas.id=class_teacher.class_id and clas.major_id=major.id and clas.grade_id=grade.id";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+
+			while (rs.next()) {
+				gmctForm = new GraMajClaTeacForm();
+				gmctForm.setGradename(rs.getString(1));
+				gmctForm.setMajorname(rs.getString(2));
+				gmctForm.setClassname(rs.getString(3));
+				gmctForm.setSubjectname(rs.getString(4));
+				list.add(gmctForm);
+				//System.out.println(gmctForm.getClassname());
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// connection.close();
+		return list;
+	}
+	//查询授课班级
+	public List getTeachClas(String teachername) {
+
+		List<GraMajClaTeacForm> list = new ArrayList();
+		String sql = "select clas.classname from teacher,clas,major,grade,class_teacher,`subject` ,teacher_sub where teacher.teachername='"+teachername+"'  and teacher_sub.subject_id=`subject`.id and teacher_sub.teacher_id=teacher.id and teacher_sub.subject_id=`subject`.id and teacher.id= class_teacher.teacher_id and clas.id=class_teacher.class_id and clas.major_id=major.id and clas.grade_id=grade.id group by classname";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+
+			while (rs.next()) {
+				gmctForm = new GraMajClaTeacForm();
+			    gmctForm.setClassname(rs.getString(1));
+			    list.add(gmctForm);
+				//System.out.println(gmctForm.getClassname());
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// connection.close();
+		return list;
+	}
+    // 查看班级考勤
 	public List getsSubAttendance(int teacher_id) {
 		List<SubAttendanceComForm> list = new ArrayList();
 		String sql = "select grade.gradename,subattendance.formname,clas.classname,`subject`.subjectname,teacher.teachername,thedate,`leave`,truancy,late,leaveEarly,`check`,number from subattendance,clas,`subject`,teacher,grade where subattendance.teacher_id='"+teacher_id+"'and grade.id=clas.grade_id and subattendance.class_id=clas.id and `subject`.id=subattendance.subject_id and teacher.id=subattendance.teacher_id";
@@ -128,5 +170,81 @@ public class TeacherDao {
 		String sql="update subattendance set `check`='"+check+"' where number='"+SubId+"' ";
 	                  connection.executeUpdate(sql);
          }
+	//获得gradeID
+	public int getgradeID(String grade)
+	{
+	
+		String sql="select id from grade where gradename='"+grade+"'";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+	      if(rs.next()) {
+				gradeForm = new GradeForm();
+				gradeForm.setId(Integer.valueOf(rs.getString(1)));
+			}
+	   
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return   gradeForm.getId();
+	}
+//获得classID
+	public int getclassID(String clas)
+	{
+		String sql="select id from clas where classname='"+clas+"'";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+	      if (rs.next()) {
+				classForm = new ClasForm();
+				classForm.setId(Integer.valueOf(rs.getString(1)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return classForm.getId();
+	}
+	
+//获得subjectID
+	public int  getsubjectID(String subject)
+	{
+		String sql="select id from subject where subjectname='"+subject+"'";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+	      if (rs.next()) {
+				subjectForm = new SubjectForm();
+				subjectForm.setId(Integer.valueOf(rs.getString(1)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return subjectForm.getId();
+	}
+	
+	//查询学生总考勤
+   public List selectAtt(int gradeID,int classID,int subjectID)
+   {
+	  List<AllattendanceForm> list = new ArrayList(); 
+	  String sql="select attendance.id,student.account,student.studentname,teacher.teachername,subject.subjectname ,sum(attendance.`leave`),sum(attendance.truancy),sum(attendance.late),sum(attendance.leaveEarly) from attendance,student,teacher,subject,clas where attendance.class_id='"+classID+"'  and attendance.subject_id='"+subjectID+"' and clas.grade_id='"+gradeID+"' and clas.id=attendance.class_id and attendance.student_id=student.id and attendance.teacher_id=teacher.id and attendance.subject_id=subject.id  group by account";
+	  try {
+			ResultSet rs = connection.executeQuery(sql);
+			while(rs.next())
+			{
+				allattendanceForm=new AllattendanceForm();
+				allattendanceForm.setId(Integer.valueOf(rs.getString(1)));
+				allattendanceForm.setAccount(rs.getString(2));
+				allattendanceForm.setStudentname(rs.getString(3));
+				allattendanceForm.setTeachername(rs.getString(4));
+				allattendanceForm.setSubjectname(rs.getString(5));
+				allattendanceForm.setLeave(Integer.valueOf(rs.getString(6)));
+				allattendanceForm.setTruancy(Integer.valueOf(rs.getString(7)));
+				allattendanceForm.setLate(Integer.valueOf(rs.getString(8)));
+				allattendanceForm.setLeaveEarly(Integer.valueOf(rs.getString(9)));
+			    list.add(allattendanceForm);
+			
+			}
+	  }catch (SQLException e) {
+			e.printStackTrace();
+		}
+	  return list;
+   }
 	
 }

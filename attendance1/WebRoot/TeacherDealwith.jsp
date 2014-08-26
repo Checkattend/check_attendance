@@ -31,6 +31,12 @@
    session.setAttribute("form",request.getAttribute("form"));
     session.setAttribute("gradelist",request.getAttribute("gradelist"));
     session.setAttribute("gmcTeacherlist",request.getAttribute("gmcTeacherlist"));
+    session.setAttribute("subjectlist",request.getAttribute("subjectlist"));
    out.println("<script language=javascript>window.location.href='Teacher_viewAll.jsp';</script>");
+   }
+   if(sign==6)
+   {
+    session.setAttribute("list",request.getAttribute("list"));
+   out.println("<script language=javascript>window.location.href='Teacher_viewAllattendance.jsp';</script>");
    }
 %>

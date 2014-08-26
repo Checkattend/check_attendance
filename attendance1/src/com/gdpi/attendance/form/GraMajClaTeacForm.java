@@ -4,6 +4,13 @@ public class GraMajClaTeacForm {
 	private String gradename;
 	private String majorname;
     private String classname;
+    private String subjectname;
+	public String getSubjectname() {
+		return subjectname;
+	}
+	public void setSubjectname(String subjectname) {
+		this.subjectname = subjectname;
+	}
 	public String getGradename() {
 		return gradename;
 	}

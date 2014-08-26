@@ -12,6 +12,7 @@ pageEncoding="utf-8"%>
 			List<GraMajClaTeacForm> gmcTeacherlist = new ArrayList();
 			gmcTeacherlist = (List<GraMajClaTeacForm>) session
 					.getAttribute("gmcTeacherlist");
+					
 		%>
 	</head>
 
@@ -35,6 +36,9 @@ pageEncoding="utf-8"%>
 									<td>
 										班名
 									</td>
+									<td>
+										课程名
+									</td>
 									
 								</tr>
 								<%
@@ -43,23 +47,29 @@ pageEncoding="utf-8"%>
 									for (int i = 0; i < gmcTeacherlist.size(); ++i) {
 										GraMajClaTeacForm gmcTeacherForm = new GraMajClaTeacForm();
 										gmcTeacherForm = gmcTeacherlist.get(i);
+										
 										z = i % 2;
 										if (z != 0) {
 											color = "#00E5EE";
 										} else {
 											color = "#FFFFFF";
 										}
+										
 								%>
+								<form name="Form1" id="Form1" method="post"
+							action="TeacherServlet?method=6&sign=6">
 								<tr bgcolor="<%=color%>">
 									<td><%=gmcTeacherForm.getGradename()%></td>
 									<td><%=gmcTeacherForm.getMajorname()%></td>
 									<td><%=gmcTeacherForm.getClassname()%></td>
-									
-								
+									<td><%=gmcTeacherForm.getSubjectname()%></td>
+								   
 								</tr>
+								</form>
 								<%								
 									}
 								%>
+								
 							</tbody>
 						</table>
 					</td>
