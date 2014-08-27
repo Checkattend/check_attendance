@@ -70,4 +70,13 @@
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/AdminServlet</url-pattern>
   </servlet-mapping>
+    <servlet> 
+    <servlet-name>InstructorServlet</servlet-name>
+    <servlet-class>com.gdpi.attendance.webiter.InstructorServlet</servlet-class>
+  </servlet> 
+	
+  <servlet-mapping>
+    <servlet-name>InstructorServlet</servlet-name>
+    <url-pattern>/InstructorServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

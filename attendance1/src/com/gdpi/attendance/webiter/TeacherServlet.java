@@ -26,9 +26,9 @@ public class TeacherServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("32131");
+	
 		this.method = Integer.parseInt(request.getParameter("method"));
-		System.out.println("32131");
+		
 		if (method == 0) {
 			this.findClass(request, response);// 查找授课班级
 		}

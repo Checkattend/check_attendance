@@ -19,7 +19,11 @@
 	      }
 	      if(userType.equals("2"))
 	      {
-	      out.println("<script language=javascript>alert('Login Success!!');window.location.href='Teacher_main.jsp';</script>");
+	      out.println("<script language=javascript>window.location.href='Teacher_main.jsp';</script>");
+	      }
+	      if(userType.equals("3"))
+	      {
+	          out.println("<script language=javascript>window.location.href='instructor_main.jsp';</script>");
 	      }
 	     if(userType.equals("4"))
 	      {

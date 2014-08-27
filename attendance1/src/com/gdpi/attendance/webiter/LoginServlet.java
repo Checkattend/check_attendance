@@ -104,6 +104,29 @@ public class LoginServlet extends HttpServlet {
 				request.setAttribute("form", teacherForm);
 			}
 		}
+		//辅导员登录
+		if (userType.equals("3")) {
+			teacherDao = new TeacherDao();
+			TeacherForm teacherForm = teacherDao.getTeacherForm(account);
+			if (teacherForm == null
+					&& !teacherForm.getAccount().equals(account)) {
+				request.setAttribute("information",
+						"The user not exist, Please Login Again!!");
+
+			} else if (!teacherForm.getPassword().equals(
+					request.getParameter("password"))) {
+				request.setAttribute("information",
+						"Password error,Please Login Again");
+			}else if (!teacherForm.getRoleId().equals(
+					Integer.valueOf(userType)))
+			{
+				request.setAttribute("information",
+				"Role error,Please Login Again");
+			}else {
+				request.setAttribute("form", teacherForm);
+			}
+
+		}
 		// 管理员登录
 		if (userType.equals("4")) {
 			teacherDao = new TeacherDao();
