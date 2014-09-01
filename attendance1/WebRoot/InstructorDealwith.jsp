@@ -6,5 +6,10 @@
 	   session.setAttribute("instructor",request.getAttribute("instructor"));
 	    out.println("<script language=javascript>window.location.href='instructor_viewOwner.jsp';</script>");
    }
-  
+   if(sign==1){
+       session.setAttribute("form",request.getAttribute("form"));
+	   session.setAttribute("grade",request.getAttribute("grade"));
+	    session.setAttribute("clas",request.getAttribute("clas"));
+	    out.println("<script language=javascript>window.location.href='instructor_select.jsp';</script>");
+   }
 %>

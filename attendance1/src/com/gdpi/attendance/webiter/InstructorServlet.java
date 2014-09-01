@@ -1,6 +1,8 @@
 package com.gdpi.attendance.webiter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.gdpi.attendance.dao.InstructorDao;
+import com.gdpi.attendance.form.ClasForm;
+import com.gdpi.attendance.form.GradeForm;
+import com.gdpi.attendance.form.SubAttendanceComForm;
 import com.gdpi.attendance.form.TeacherForm;
 
 public class InstructorServlet extends HttpServlet {
@@ -19,8 +24,17 @@ public class InstructorServlet extends HttpServlet {
 		if (method == 0) {
 			this.findOwner(request, response);// 查看个人信息
 		}
+		if (method == 1) {
+			this.getSelect(request, response);// 得到查询条件
+		}
 	}
-	
+	/**
+	 * findOwner method
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void findOwner(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -38,6 +52,34 @@ public class InstructorServlet extends HttpServlet {
 				.getRequestDispatcher("/InstructorDealwith.jsp");
 		requestDispatcher.forward(request, response);
 
+	}
+	/**
+	 * getSelect  method
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void getSelect(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		System.out.println("SelectGradeAttendence");
+		TeacherForm teacherForm = (TeacherForm) request.getSession()
+				.getAttribute("form");
+	   int instructorId=teacherForm.getId();
+	   instructorDao = new InstructorDao();
+	 //得到辅导员所带的年级
+	   List<GradeForm>grade = new ArrayList();
+	   grade=instructorDao.getGrade(instructorId);
+	   //获得辅导员所带的班级
+	   List<ClasForm> clas = new ArrayList();
+	    clas=instructorDao.getClas(instructorId);
+	   request.setAttribute("grade", grade);
+	   request.setAttribute("clas", clas);
+		request.setAttribute("form", teacherForm);
+		RequestDispatcher requestDispatcher = request
+				.getRequestDispatcher("/InstructorDealwith.jsp");
+		requestDispatcher.forward(request, response);
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

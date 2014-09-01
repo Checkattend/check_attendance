@@ -2,16 +2,60 @@ package com.gdpi.attendance.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.gdpi.attendance.form.ClasForm;
+import com.gdpi.attendance.form.GraMajClaTeacForm;
+import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.JDBConnection;
 
 public class InstructorDao {
 	private JDBConnection connection = null;
 	private TeacherForm teacherForm = null;
+	private GradeForm gradeForm=null;
+	private ClasForm clasForm=null;
 	public InstructorDao()
 	{
 		connection = new JDBConnection();
+	}
+	//获得辅导员所带的班级
+	public List getClas(int instructorId)
+	{
+		List<ClasForm> list = new ArrayList();
+		String sql=" select clas.classname from clas,grade ,instructor_grade,teacher where instructor_grade.instructor_id='"+instructorId+"' and grade.id=instructor_grade.grade_id and teacher.id=instructor_grade.instructor_id and clas.grade_id=grade.id";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+
+			while (rs.next()) {
+				clasForm = new ClasForm();
+				clasForm.setClasname(rs.getString(1));
+				list.add(clasForm);
+				
+			}
+          } catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return list;
+	}
+	//获得辅导员所带的年级
+	public List getGrade(int instructorId)
+	{
+		List<GradeForm> list = new ArrayList();
+		String sql=" select gradename from grade,instructor_grade,teacher where instructor_grade.instructor_id='"+instructorId+"' and instructor_grade.instructor_id=teacher.id and instructor_grade.grade_id=grade.id ";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+
+			while (rs.next()) {
+				gradeForm = new GradeForm();
+				gradeForm.setGradename(Integer.valueOf(rs.getString(1)));
+				list.add(gradeForm);
+			}
+          } catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return list;
 	}
 	//获取辅导员个人信息
 	public TeacherForm getInstructor(String account) {
