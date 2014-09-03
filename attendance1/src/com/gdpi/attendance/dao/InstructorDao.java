@@ -8,6 +8,7 @@ import java.util.List;
 import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GraMajClaTeacForm;
 import com.gdpi.attendance.form.GradeForm;
+import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.JDBConnection;
 
@@ -16,9 +17,28 @@ public class InstructorDao {
 	private TeacherForm teacherForm = null;
 	private GradeForm gradeForm=null;
 	private ClasForm clasForm=null;
+	private SubjectForm subjectForm=null;
 	public InstructorDao()
 	{
 		connection = new JDBConnection();
+	}
+	//获得所开设的课程
+	public List getSubject(){
+		List<SubjectForm> list=new ArrayList();
+		String sql="select subjectname from subject";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+
+			while (rs.next()) {
+				subjectForm = new SubjectForm();
+				subjectForm.setSubjectname(rs.getString(1));
+				list.add(subjectForm);
+				
+			}
+          } catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return list;
 	}
 	//获得辅导员所带的班级
 	public List getClas(int instructorId)

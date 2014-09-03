@@ -10,6 +10,7 @@
        session.setAttribute("form",request.getAttribute("form"));
 	   session.setAttribute("grade",request.getAttribute("grade"));
 	    session.setAttribute("clas",request.getAttribute("clas"));
+	    session.setAttribute("subject",request.getAttribute("subject"));
 	    out.println("<script language=javascript>window.location.href='instructor_select.jsp';</script>");
    }
 %>

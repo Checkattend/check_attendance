@@ -94,7 +94,7 @@ public class TeacherDao {
 	public List getTeachClass(String teachername) {
 
 		List<GraMajClaTeacForm> list = new ArrayList();
-		String sql = "select grade.gradename ,major.majorname,clas.classname ,`subject`.subjectname from teacher,clas,major,grade,class_teacher,`subject` ,teacher_sub where teacher.teachername='"+teachername+"'  and teacher_sub.subject_id=`subject`.id and teacher_sub.teacher_id=teacher.id and teacher_sub.subject_id=`subject`.id and teacher.id= class_teacher.teacher_id and clas.id=class_teacher.class_id and clas.major_id=major.id and clas.grade_id=grade.id";
+		String sql = "select grade.gradename ,major.majorname,clas.classname ,`subject`.subjectname from teacher,clas,major,grade,class_teacher,`subject` ,teacher_sub ,sub_class where teacher.teachername='"+teachername+"' and sub_class.class_id=clas.id and sub_class.subject_id=`subject`.id and teacher_sub.subject_id=`subject`.id and teacher_sub.teacher_id=teacher.id and teacher_sub.subject_id=`subject`.id and teacher.id= class_teacher.teacher_id and clas.id=class_teacher.class_id and clas.major_id=major.id and clas.grade_id=grade.id";
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 

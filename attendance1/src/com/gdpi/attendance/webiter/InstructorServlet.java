@@ -13,6 +13,7 @@ import com.gdpi.attendance.dao.InstructorDao;
 import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.SubAttendanceComForm;
+import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.form.TeacherForm;
 
 public class InstructorServlet extends HttpServlet {
@@ -27,6 +28,9 @@ public class InstructorServlet extends HttpServlet {
 		if (method == 1) {
 			this.getSelect(request, response);// 得到查询条件
 		}
+		/*if (method == 2) {
+			this.getSelect(request, response);// 得到查询条件
+		}*/
 	}
 	/**
 	 * findOwner method
@@ -74,8 +78,12 @@ public class InstructorServlet extends HttpServlet {
 	   //获得辅导员所带的班级
 	   List<ClasForm> clas = new ArrayList();
 	    clas=instructorDao.getClas(instructorId);
+	    //获得所有开设的科目
+	    List<SubjectForm> subject=new ArrayList();
+	    subject=instructorDao.getSubject();
 	   request.setAttribute("grade", grade);
 	   request.setAttribute("clas", clas);
+	   request.setAttribute("subject", subject);
 		request.setAttribute("form", teacherForm);
 		RequestDispatcher requestDispatcher = request
 				.getRequestDispatcher("/InstructorDealwith.jsp");

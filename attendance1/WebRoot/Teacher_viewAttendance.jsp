@@ -21,6 +21,7 @@
   							<tr bgcolor="#eef3f9">
   								<td>考勤表</td>
   								<td>年级</td>
+  								<td>课时</td>
   								<td>班级</td>
   								<td>课程</td>
   								<td>任课老师</td>
@@ -35,9 +36,10 @@
   									String check = subAC.getCheck();
   									if(check.equals("未确认")) {
   							%>
-  								<tr>
+  								<tr bgcolor="ffffff">
   									<td><font color="black">【</font><font color="red"><%=subAC.getCheck() %></font><font color="black">】</font></td>
   									<td><%=subAC.getGradename() %></td>
+  									<td><%=subAC.getFormname() %></td>
   									<td><%=subAC.getClassname() %></td>
   									<td><%=subAC.getSubjectname() %></td>
   									<td><%=subAC.getTeachername() %></td>
@@ -61,6 +63,7 @@
   							<tr bgcolor="#eef3f9">
   								<td>考勤表</td>
   								<td>年级</td>
+  								<td>课时</td>
   								<td>班级</td>
   								<td>课程</td>
   								<td>任课老师</td>
@@ -77,6 +80,7 @@
   								<tr bgcolor="ffffff">
   									<td><font color="black">【</font><font color="red"><%=subAC.getCheck() %></font><font color="black">】</font></td>
   									<td><%=subAC.getGradename() %></td>
+  									<td><%=subAC.getFormname() %></td>
   									<td><%=subAC.getClassname() %></td>
   									<td><%=subAC.getSubjectname() %></td>
   									<td><%=subAC.getTeachername() %></td>
