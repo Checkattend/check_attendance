@@ -117,7 +117,7 @@
 										</td>
 										<td>
 											科目:
-											<select name="clas" id="clas">
+											<select name="subject" id="subject">
 												<%
 													for (int i = 0; i < subject.size(); ++i) {
 														SubjectForm subjectForm = new SubjectForm();

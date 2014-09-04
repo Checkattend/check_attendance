@@ -13,4 +13,10 @@
 	    session.setAttribute("subject",request.getAttribute("subject"));
 	    out.println("<script language=javascript>window.location.href='instructor_select.jsp';</script>");
    }
+   if(sign==2){
+       session.setAttribute("form",request.getAttribute("form"));
+	   session.setAttribute("SubAttComForm",request.getAttribute("SubAttComForm"));
+       out.println("<script language=javascript>window.location.href='All_Attendance1.jsp';</script>");
+   }
+  
 %>

@@ -8,6 +8,7 @@ import java.util.List;
 import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GraMajClaTeacForm;
 import com.gdpi.attendance.form.GradeForm;
+import com.gdpi.attendance.form.SubAttendanceComForm;
 import com.gdpi.attendance.form.SubjectForm;
 import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.JDBConnection;
@@ -18,9 +19,38 @@ public class InstructorDao {
 	private GradeForm gradeForm=null;
 	private ClasForm clasForm=null;
 	private SubjectForm subjectForm=null;
+	private SubAttendanceComForm SubAttComForm=null;
 	public InstructorDao()
 	{
 		connection = new JDBConnection();
+	}
+	//获得按单科查询得到的数据
+	public List ToView_SubAttendance(String grade,String clas,String subject)
+	{
+		List<SubAttendanceComForm> list=new ArrayList();
+		String sql="select grade.gradename,subattendance.formname,clas.classname,`subject`.subjectname,teacher.teachername,thedate,`leave`,truancy,late,leaveEarly,`check`,number from subattendance,clas,`subject`,teacher,grade where   grade.id=clas.grade_id and subattendance.class_id=clas.id and `subject`.id=subattendance.subject_id and teacher.id=subattendance.teacher_id and grade.gradename='"+grade+"' and clas.classname='"+clas+"' and `subject`.subjectname='"+subject+"'";
+		try {
+			ResultSet rs = connection.executeQuery(sql);
+
+			while (rs.next()) {
+				SubAttComForm = new SubAttendanceComForm();
+				SubAttComForm.setGradename(Integer.valueOf(rs.getString(1)));
+				SubAttComForm.setFormname(rs.getString(2));
+				SubAttComForm.setClassname(rs.getString(3));
+				SubAttComForm.setSubjectname(rs.getString(4));
+				SubAttComForm.setTeachername(rs.getString(5));
+				SubAttComForm.setThedate(rs.getString(6));
+				SubAttComForm.setLeave(Integer.valueOf(rs.getString(7)));
+				SubAttComForm.setTruancy(Integer.valueOf(rs.getString(8)));
+				SubAttComForm.setLate(Integer.valueOf(rs.getString(9)));
+				SubAttComForm.setLeaveEarly(Integer.valueOf(rs.getString(10)));
+				SubAttComForm.setCheck(rs.getString(11));
+				list.add(SubAttComForm);	
+			}
+          } catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return list;
 	}
 	//获得所开设的课程
 	public List getSubject(){

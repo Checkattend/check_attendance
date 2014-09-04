@@ -11,9 +11,9 @@ transitional.dtd">
         	var data = [
             		{ID:1, TEXT:"辅导员", PID:0},
             		{ID:11, TEXT:"个人信息", PID:1, URL:"/InstructorServlet?method=0&sign=0"},
-            		{ID:12, TEXT:"查看所带班级考勤", PID:1, URL:"/InstructorServlet?method=1&sign=1"},
-            		{ID:13, TEXT:"导出考勤表", PID:1, URL:"/InstructorServlet?method=&sign="},
-            		{ID:14, TEXT:"修改今天班级考勤", PID:1, URL:"/InstructorServlet?method=&sign="}
+            		{ID:12, TEXT:"查看所带班级考勤", PID:1, URL:"/InstructorServlet?method=1&sign=1"}
+            		
+            		
             	];
             $(function ()
             { 

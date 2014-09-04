@@ -28,9 +28,35 @@ public class InstructorServlet extends HttpServlet {
 		if (method == 1) {
 			this.getSelect(request, response);// 得到查询条件
 		}
-		/*if (method == 2) {
-			this.getSelect(request, response);// 得到查询条件
-		}*/
+		if (method == 2) {
+			this.SelectWithSub(request, response);// 按单科查询
+		}
+	}
+	/**
+	 * SelectWithSub method
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void SelectWithSub(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		System.out.println("SelectWithSub method");
+		TeacherForm teacherForm = (TeacherForm) request.getSession()
+				.getAttribute("form");
+		String grade=request.getParameter("grade");
+		String clas=request.getParameter("clas");
+		String subject=request.getParameter("subject");
+		 instructorDao = new InstructorDao();
+		 //单科查询
+		 List<SubAttendanceComForm> SubAttComForm=new ArrayList();
+		 SubAttComForm=instructorDao.ToView_SubAttendance(grade,clas,subject);
+		 request.setAttribute("SubAttComForm",  SubAttComForm);
+			request.setAttribute("form", teacherForm);
+			RequestDispatcher requestDispatcher = request
+					.getRequestDispatcher("/InstructorDealwith.jsp");
+			requestDispatcher.forward(request, response);
 	}
 	/**
 	 * findOwner method
@@ -42,7 +68,7 @@ public class InstructorServlet extends HttpServlet {
 	public void findOwner(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		System.out.println("findOwner");
+		System.out.println("findOwner method");
 		TeacherForm teacherForm = (TeacherForm) request.getSession()
 				.getAttribute("form");
 		String account = teacherForm.getAccount();
@@ -67,7 +93,7 @@ public class InstructorServlet extends HttpServlet {
 	public void getSelect(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		System.out.println("SelectGradeAttendence");
+		System.out.println("getSelect method");
 		TeacherForm teacherForm = (TeacherForm) request.getSession()
 				.getAttribute("form");
 	   int instructorId=teacherForm.getId();
