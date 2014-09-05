@@ -109,7 +109,7 @@ public class LoginServlet extends HttpServlet {
 			teacherDao = new TeacherDao();
 			TeacherForm teacherForm = teacherDao.getTeacherForm(account);
 			if (teacherForm == null
-					&& !teacherForm.getAccount().equals(account)) {
+					||!teacherForm.getAccount().equals(account)) {
 				request.setAttribute("information",
 						"The user not exist, Please Login Again!!");
 
@@ -132,7 +132,7 @@ public class LoginServlet extends HttpServlet {
 			teacherDao = new TeacherDao();
 			TeacherForm teacherForm = teacherDao.getTeacherForm(account);
 			if (teacherForm == null
-					&& !teacherForm.getAccount().equals(account)) {
+					|| !teacherForm.getAccount().equals(account)) {
 				request.setAttribute("information",
 						"The user not exist, Please Login Again!!");
 
