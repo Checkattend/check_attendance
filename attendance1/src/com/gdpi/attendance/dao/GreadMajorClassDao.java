@@ -30,7 +30,7 @@ public class GreadMajorClassDao  {
 		 */
 		public List<GreadMajorClassForm> QueryNumberOfLTLL() {
 			List<GreadMajorClassForm> list = new ArrayList();
-			String sql = "select grade.gradename,major.majorname,clas.classname,grade.des,major.des,clas.id,grade.id,major.id from grade,major,clas where clas.grade_id=grade.id and clas.major_id=major.id;";
+			String sql = "select grade.gradename,major.majorname,clas.classname,grade.des,major.des,clas.id,grade.id,major.id from grade,major,clas where clas.grade_id=grade.id and clas.major_id=major.id";
 			ResultSet rs = connection.executeQuery(sql);
 			
 			try {

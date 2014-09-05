@@ -11,8 +11,11 @@ transitional.dtd">
         	var data = [
             		{ID:1, TEXT:"学生考勤管理员", PID:0},
             		{ID:11, TEXT:"修改年级-专业-班级", PID:1, URL:"/AdminServlet?method=0&sign=0"},
-            		{ID:11, TEXT:"添加年级-专业-班级", PID:1, URL:"/addGradeMajorClas.jsp"},
-            		{ID:12, TEXT:"班级课程表-任课老师-辅导员", PID:1, URL:"/Subject-Teacher-Counselor.jsp"}
+            		{ID:12, TEXT:"添加年级-专业-班级", PID:1, URL:"/addGradeMajorClas.jsp"},
+            		{ID:13, TEXT:"管理所有学生", PID:1, URL:"/ManageAllStudents.jsp"},
+            		{ID:14, TEXT:"管理所有教师", PID:1, URL:"/AdminServlet?method=8&sign=10"},
+            		{ID:15, TEXT:"班级课程表-任课老师-辅导员", PID:1, URL:"/Subject-Teacher-Counselor.jsp"}
+
             	];
             $(function ()
             { 

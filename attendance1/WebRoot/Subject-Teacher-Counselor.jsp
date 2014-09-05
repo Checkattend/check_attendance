@@ -13,6 +13,7 @@
 		["软件java班","软件.net班"],   
 		["应用班"],   
 		["多媒体"], 
+		["信管班"],
 		["软件测试班"]
 		];    
 		function getCity(){   
@@ -32,6 +33,7 @@
 </script>
 </head>
 <body>
+
 	<tr>
 	<FORM method="post" action="" name="form1">  
     <p>
@@ -66,6 +68,7 @@
 	   </p>
     </FORM>
 	</tr>
+	
 	<tr>
 	<table width="750" border="1" align="center" cellpadding="0" cellspacing="0">
   <tr>

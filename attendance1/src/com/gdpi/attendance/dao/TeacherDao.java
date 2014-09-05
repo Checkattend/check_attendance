@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gdpi.attendance.form.AllStudentForm;
 import com.gdpi.attendance.form.AllattendanceForm;
 import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GraMajClaTeacForm;
@@ -23,12 +24,13 @@ public class TeacherDao {
     private SubjectForm subjectForm=null;
     private ClasForm classForm=null;
     private AllattendanceForm allattendanceForm=null;
+    private AllStudentDao allStudentDao=null;
 	public TeacherDao() {
 		connection = new JDBConnection();
 	}
      //获取个人信息
 	public TeacherForm getTeacherForm(String account) {
-		String sql = "select * from teacher where account='" + account + "'";
+		String sql = "select * from teacher ,role where teacher.role_id=role.id and account='" + account + "'";
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 
@@ -39,6 +41,9 @@ public class TeacherDao {
 				teacherForm.setAccount(rs.getString(3));
 				teacherForm.setPassword(rs.getString(4));
 				teacherForm.setRoleId(Integer.valueOf(rs.getString(5)));
+				teacherForm.setRolename(rs.getString(7));
+				teacherForm.setRoledes(rs.getString(8));
+				
 			}
 
 		} catch (SQLException e) {
@@ -246,5 +251,87 @@ public class TeacherDao {
 		}
 	  return list;
    }
+ //查询所有教师
+   public List selectAllTeachers()
+   {
+	  List<TeacherForm> list = new ArrayList(); 
+	  String sql="select teacher.id,teacher.teachername,teacher.account,teacher.password,teacher.role_id,role.rolename,role.des from teacher,role where teacher.role_id=role.id";
+	  try {
+			ResultSet rs = connection.executeQuery(sql);
+			while(rs.next())
+			{
+				teacherForm=new TeacherForm();
+				teacherForm.setId(Integer.valueOf(rs.getString(1)));
+				teacherForm.setTeachername(rs.getString(2));
+				teacherForm.setAccount(rs.getString(3));
+				teacherForm.setPassword(rs.getString(4));
+				teacherForm.setRoleId(Integer.valueOf(rs.getString(5)));
+				teacherForm.setRolename(rs.getString(6));
+				teacherForm.setRoledes(rs.getString(7));
+			    list.add(teacherForm);
+			
+			}
+	  }catch (SQLException e) {
+			e.printStackTrace();
+		}
+	  return list;
+   }
+   /**
+	 * 添加新教师
+	 * 
+	 * @param classid
+	 * @return
+	 */
+	public int addNewTeacher(TeacherForm teacherForm)
+	{
+		int i=0;
+		if(teacherForm.getTeachername()==null||teacherForm.getAccount()==null)
+		{
+			return i;
+		}
+		allStudentDao=new AllStudentDao();
+		int role_id=allStudentDao.getroleForm(teacherForm.getRolename()).getId();
+		String sql="insert into teacher(teachername,account,password,role_id) values('"+teacherForm.getTeachername()+"','"+teacherForm.getAccount()+"','"+teacherForm.getPassword()+"','"+role_id+"')";
+		i=connection.executeUpdate(sql);
+		return i;
+	}
+	 /**
+	 * 修改教师信息
+	 * 
+	 * @param classid
+	 * @return
+	 */
+	public int modifyTeacher(TeacherForm teacherForm)
+	{
+		int i=0;
+		allStudentDao=new AllStudentDao();
+		int role_id=allStudentDao.getroleForm(teacherForm.getRolename()).getId();
+		String sql="update teacher set teacher.teachername='"+teacherForm.getTeachername()+"',teacher.account='"+teacherForm.getAccount()+"',teacher.password='"+teacherForm.getPassword()+"',teacher.role_id='"+role_id+"' where teacher.id='"+teacherForm.getId()+"'";
+		i=connection.executeUpdate(sql);
+		return i;
+	}
+	/**
+	 * 删除教师信息
+	 * 
+	 * @param classid
+	 * @return
+	 */
+	public int deleteTeacherForm(String teacherId) {
+		int flag=0;
+		String sql = "delete from attendance where attendance.teacher_id='"+teacherId+"'";
+		int i=connection.executeUpdate(sql);//删除attendance
+		String sql1 = "delete from class_teacher where class_teacher.teacher_id='"+teacherId+"'";
+		int j=connection.executeUpdate(sql1);//删除class_teacher
+		String sql2 = "delete from teacher_sub where teacher_sub.teacher_id='"+teacherId+"'";
+		int k=connection.executeUpdate(sql2);//删除teacher_sub
+		String sql3 = "delete from teacher where teacher.id='"+teacherId+"'";
+		int l=connection.executeUpdate(sql3);//删除teacher
+
+		if(i!=0||j!=0||k!=0||l!=0)
+		{
+			++flag;
+		}	
+		return flag;
+	}
 	
 }
