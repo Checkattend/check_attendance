@@ -80,6 +80,7 @@
              </td>
              <td>
                    <input name="修改" type="submit" value="修改"> 
+                    <a href="AdminServlet?method=4&sign=5&Grade=<%=allStudentForm.getGradename()%>&Major=<%=allStudentForm.getMajorname() %>&Clas=<%=allStudentForm.getClassname() %>">取消</a>
              </td>
              </tr>
           </tr>

@@ -24,12 +24,17 @@
 	</head>
 
 	<body>
-	    <h2>管理年级、专业、班级的添加</h2>
-	   <table name="thead" Width="800">
-	      <FORM method="post" action="AdminServlet?method=1&sign=1&add=1" name="form1"> 
-	      <tr><h4>添加已有班级：</h4></tr>
+	   <font color="red"> <h2>管理年级、专业、班级的添加</h2></font>
+		<table cellspacing="1" cellpadding="0" width="100%" bgcolor="#5e85b1"
+			border="0"  align="center">
+			<tbody>
+				<tr>
+				 <FORM method="post" action="AdminServlet?method=1&sign=1&add=1" name="form1"> 
 	      <tr>
-	           年级<select name="Grade">
+	     <td> <font color="red"><b>添加已有班级：</b></font></td>
+	     </tr>
+	      <tr>
+	         <td>  年级<select name="Grade">
           <option value="2011">2011</option>
           <option value="2012">2012</option>
           <option value="2013">2013</option>
@@ -41,7 +46,7 @@
           <option value="2019">2019</option>
           <option value="2020">2020</option>
         </select>
-        &nbsp;&nbsp; 
+        
 		专业<SELECT NAME="Major" onChange="getClas()">   
 		<OPTION VALUE="0">请选择专业 </OPTION>
 		<%
@@ -53,7 +58,8 @@
 		<%
 		}
 		 %>  		  
-		</SELECT>   
+		</SELECT> 
+		
 		班级<SELECT NAME="Clas">   
 		<OPTION VALUE="0">请选择班级 </OPTION>
 		<%
@@ -65,29 +71,42 @@
         <%
            }
         %>   
-		</SELECT> 
-		 &nbsp;&nbsp; <input name="submin" type="submit" value="添加"/> 
+		</SELECT>   
+		 <input name="submin" type="submit" value="添加"/> 
+		 </td>
 	      </tr>
+	      
 	      </FORM>
-	      <tr></tr>
-	   </table>
-	   <table name="tbody" Width="500">
-	      <tr><h4>新增一个专业：</h4></tr>
-	      <tr>
-		   <form action="AdminServlet?method=1&sign=1&add=2" method="post" >      
-		   <tr>	   
-		     <td> 专业<input type="text" name="Major"/></td>
-			 <td>专业描述<input type="text" name="MajorDes"/></td>
-			  <td><input type="submit" name="添加" value="添加"/>  </td>
+				</tr>
+		<tr>
+		<td>	
+		 <form action="AdminServlet?method=1&sign=1&add=2" method="post" >      
+		  <tr>
+			  <td>
+		           <font color="red"><b>新增一个专业：</b></font>
+		      </td>
+	      </tr> 
+	      <tr> 
+	      <td>
+		           专业    <input type="text" name="Major"/>
+			 专业描述<input type="text" name="MajorDes"/>
+			        <input type="submit" name="添加" value="添加"/>  
+			</td>  
 		   </tr> 
 	      </form>
+	      </td>
 	      </tr>
-	   </table>
-	   <table name="tfood" Width="800">
-	   <tr><h4>新增一个新班：</h4></tr>
-		<form action="AdminServlet?method=1&sign=1&add=3" method="post" >      
-		   <tr>	
-		     年级<select name="Grade">
+	      <tr>
+	      <td>
+	      <form action="AdminServlet?method=1&sign=1&add=3" method="post" > 
+	       <tr>
+	           <td>
+	                <font color="red"><b>新增一个新班：</b></font>
+	           </td>
+	      </tr>     
+		  <tr>
+		     <td>
+		       年级<select name="Grade">
           <option value="2011">2011</option>
           <option value="2012">2012</option>
           <option value="2013">2013</option>
@@ -98,9 +117,8 @@
           <option value="2018">2018</option>
           <option value="2019">2019</option>
           <option value="2020">2020</option>
-        </select>
-        &nbsp;&nbsp;    
-		    专业 <SELECT NAME="Major" onChange="getCity()">   
+        </select>   
+		   专业 <SELECT NAME="Major" onChange="getCity()">   
 		<OPTION VALUE="0">请选择专业 </OPTION>   
 		<%
 		   for (int i = 0; i < majorList.size(); ++i) {
@@ -112,10 +130,17 @@
 		}
 		 %>   
 		</SELECT>
+		
 	    班级<input type="text" name="Clas"/>                
-	<input type="submit" name="添加" value="添加"/> 
-			 </tr>
-	   </form>
-	   </table>
+	      <input type="submit" name="添加" value="添加"/> 
+		     
+		     </td>
+		  </tr>
+		  
+	    </form>
+		</td>
+	   </tr>
+			</tbody>
+		</table>
 	</body>
 </html>

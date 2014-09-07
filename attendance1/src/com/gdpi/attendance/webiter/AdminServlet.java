@@ -318,7 +318,7 @@ public class AdminServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		AllStudentDao allStudentDao=new AllStudentDao();
-		int i=allStudentDao.deleteGreadMajorClassForm(request.getParameter("studentId"));
+		int i=allStudentDao.deleteStudent(request.getParameter("studentId"));
 		if(i==0)
 		{
 			request.setAttribute("information",

@@ -24,13 +24,15 @@
 	 %>
 
 	<body>
-	<h3>管理所有学生添加,修改，删除</h3>
+	<font color="red"><h2>管理所有学生添加,修改，删除</h2></font>
     <table>
-    <thead>
-           <h4>按年级-专业-班级查询学生</h4>
-          <tr>
-     <form action="AdminServlet?method=4&sign=5" method="post">
-       年级<SELECT NAME="Grade">   
+    <tbody cellspacing="1" cellpadding="0" width="100%" bgcolor="#5e85b1"
+			border="0"  align="left">
+      <tr>
+     <td>
+         <font color="red">按年级-专业-班级查询学生</font>
+         <form action="AdminServlet?method=4&sign=5" method="post">
+                     年级<SELECT NAME="Grade">   
 		<OPTION VALUE="0">请选择年级 </OPTION>
 		<%
            for (int i = 0; i < greadMajorClassList.size(); ++i) {
@@ -67,14 +69,13 @@
         %>   
 		</SELECT>
 		<input name="查询" type="submit" value="查询"> 
-		</form>
-          
-          </tr>
-    </thead>
-    <tbody>
-          <h4>添加新生</h4>
+		</form> 
+		 </td> 
+       </tr>	
+	   <tr>
+		<td>
+         <font color="red">添加新生</font>
           <form action="AdminServlet?method=5&sign=6" method="post">
-          <tr>
               年级<SELECT NAME="Grade">   
 		<OPTION VALUE="0">请选择年级 </OPTION>
 		<%
@@ -115,22 +116,21 @@
 		        <OPTION VALUE="student">普通学生</OPTION>
 		        <OPTION VALUE="commissioner">学习委员</OPTION>
 		</SELECT>
-		   <tr>
-             <td>
-                                               姓名：<input name="studentname" type="text">
-             </td>
-             <td>
+        <tr>
+           <td>
+                                                姓名：<input name="studentname" type="text">
+
                                               学号：<input name="studentaccount" type="text">
-             </td>
-             <td>
+
                                               密码：<input name="studentpassword" type="text">
-             </td>
-             <td>
+
                    <input name="添加" type="submit" value="添加"> 
-             </td>
-             </tr>
-          </tr>
-         </form> 
+           
+           </td>
+        </tr>                                        
+         </form>
+         </td> 
+         </tr>
     </tbody>
     <tfoot>
          

@@ -173,10 +173,16 @@ public class AllStudentDao {
 	 * @param classid
 	 * @return
 	 */
-	public int deleteGreadMajorClassForm(String studentId) {
-		int i=0;
+	public int deleteStudent(String studentId) {
+		int flag=0;
+		String sql2 = "delete from attendance where attendance.student_id='"+studentId+"'";
+		int k=connection.executeUpdate(sql2);//删除attendance
 		String sql = "delete  from student where student.id='"+studentId+"'";
-	    i=connection.executeUpdate(sql);//删除student表
-		return i;
+	    int j=connection.executeUpdate(sql);//删除student表
+	    if(k!=0||j!=0)
+	    {
+	    	flag++;
+	    }
+		return flag;
 	}
 }
