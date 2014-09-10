@@ -2,17 +2,20 @@
 	import="com.gdpi.attendance.dao.InstructorDao"
 	import="com.gdpi.attendance.form.GradeForm"
 	import="com.gdpi.attendance.form.ClasForm" import="java.util.List" import="com.gdpi.attendance.form.SubjectForm" 
-	import="java.util.ArrayList" pageEncoding="utf-8"%>
+	import="java.util.ArrayList"  import="com.gdpi.attendance.form.SubAttendanceComForm" pageEncoding="utf-8"%>
 <html>
 	<head>
 		<title>辅导员按条件查询</title>
 		<%
 			List<GradeForm> grade = new ArrayList();
+		
 			List<ClasForm> clas = new ArrayList();
 			List<SubjectForm> subject = new ArrayList();
-			grade = (List<GradeForm>) session.getAttribute("grade");
+			List<SubAttendanceComForm> AttTime=new ArrayList();	
+			grade = (List<GradeForm>)session.getAttribute("grade");
 			clas = (List<ClasForm>) session.getAttribute("clas");
 			subject = (List<SubjectForm>) session.getAttribute("subject");
+			AttTime = (List<SubAttendanceComForm>) session.getAttribute("AttTime");
 		%>
 	</head>
 
@@ -23,7 +26,7 @@
 				<tr>
 					<td>
 						<form name="Form1" id="Form1" method="post"
-							action="InstructorServlet?method=2&sign=2">
+							action="InstructorServlet?method=3&sign=3">
 							<table id="sbycategory" cellspacing="1" cellpadding="0"
 								border="0">
 								<tbody>
@@ -58,6 +61,35 @@
 														clasForm = clas.get(i);
 												%>
 												<option value="<%=clasForm.getClasname()%>"><%=clasForm.getClasname()%></option>
+												<%
+													}
+												%>
+											</select>
+										</td>
+										&nbsp;
+										<td>
+											从
+											<select name="time1" id="time1">
+												<%
+													for (int i = 0; i < AttTime.size(); ++i) {
+														SubAttendanceComForm Form = new SubAttendanceComForm();
+														Form = AttTime.get(i);
+												%>
+												<option value="<%=Form.getThedate()%>"><%=Form.getThedate()%></option>
+												<%
+													}
+												%>
+											</select>
+										</td>&nbsp;
+										<td>
+											至
+											<select name="time2" id="time2">
+												<%
+													for (int i = 0; i < AttTime.size(); ++i) {
+														SubAttendanceComForm Form = new SubAttendanceComForm();
+														Form = AttTime.get(i);
+												%>
+												<option value="<%=Form.getThedate()%>"><%=Form.getThedate()%></option>
 												<%
 													}
 												%>

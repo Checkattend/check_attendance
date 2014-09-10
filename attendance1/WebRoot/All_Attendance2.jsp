@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*,com.gdpi.attendance.form.SubAttendanceComForm,com.gdpi.attendance.dao.TeacherDao" pageEncoding="UTF-8"%>
 <html>
   <head>
-   <title>辅导员—查看按单科查询的考勤</title>
+   <title>辅导员—查看按时间查询的考勤</title>
  
    <%
 			Integer leaveTimes = 0;
@@ -16,7 +16,7 @@
   <body>
   <table cellspacing="1" cellpadding="0" width="100%" bgcolor="#5e85b1" border="0">
   		<tbody>
-  			<tr><td colspan="7"><div align="center">班级单科考勤</div></td></tr>
+  			<tr><td colspan="7"><div align="center">时间段考勤表</div></td></tr>
    <tr bgcolor="#adceef"><td colspan="7"><div><strong>全部考勤表</strong></div></td></tr>
   			<tr>
   				<td>
@@ -73,7 +73,7 @@
   			<td>
   			<center>
   			<input type="button" value="返回继续查询" onclick="javascript:window.location.href='InstructorServlet?method=1&sign=1'" />
-  			<input type="button" value="导出数据表" onclick="javascript:window.location.href='checkout.jsp'" />
+  			<input type="button" value="导出数据表" onclick="javascript:window.location.href='checkout2.jsp'" />
   			</center>
   			</td>
   			</tr>

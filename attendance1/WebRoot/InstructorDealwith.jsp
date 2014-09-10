@@ -11,6 +11,7 @@
 	   session.setAttribute("grade",request.getAttribute("grade"));
 	    session.setAttribute("clas",request.getAttribute("clas"));
 	    session.setAttribute("subject",request.getAttribute("subject"));
+	   session.setAttribute("AttTime",request.getAttribute("AttTime"));
 	    out.println("<script language=javascript>window.location.href='instructor_select.jsp';</script>");
    }
    if(sign==2){
@@ -18,5 +19,9 @@
 	   session.setAttribute("SubAttComForm",request.getAttribute("SubAttComForm"));
        out.println("<script language=javascript>window.location.href='All_Attendance1.jsp';</script>");
    }
-  
+   if(sign==3){
+       session.setAttribute("form",request.getAttribute("form"));
+	   session.setAttribute("SubAttComForm",request.getAttribute("SubAttComForm"));
+       out.println("<script language=javascript>window.location.href='All_Attendance2.jsp';</script>");
+   }
 %>

@@ -8,7 +8,7 @@
 <%@pagecontentType="application/vnd.ms-word;charset=utf-8"%>
 <%
 	response.setHeader("Content-disposition",
-			"attachment; filename=SubjectAttendance.doc");
+			"attachment; filename=TimeAttendance.doc");
 %>
 <html>
   <head>
@@ -41,7 +41,7 @@
   <body>
   <table id="PrintA" cellspacing="1" cellpadding="0" width="100%" bgcolor="#5e85b1" border="0">
   		<tbody>
-  			<tr><td colspan="7"><div align="center">班级单科考勤表</div></td></tr>
+  			<tr><td colspan="7"><div align="center">班级时间段考勤表</div></td></tr>
    <tr bgcolor="#adceef"><td colspan="7"><div><strong>全部考勤表</strong></div></td></tr>
   			<tr>
   				<td>
