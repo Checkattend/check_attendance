@@ -9,6 +9,7 @@ import com.gdpi.attendance.form.ClasForm;
 import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.GreadMajorClassForm;
 import com.gdpi.attendance.form.MajorForm;
+import com.gdpi.attendance.form.TeacherForm;
 import com.gdpi.attendance.tool.JDBConnection;
 
 
@@ -18,6 +19,7 @@ public class GreadMajorClassDao  {
 	   private  GradeForm 	gradeForm=null;
 	   private  ClasForm clasForm=null;
 	   private GreadMajorClassForm greadMajorClassForm = null;
+	   private TeacherForm teacherForm = null;
 	   public GreadMajorClassDao()
 	   {
 		   connection=new JDBConnection();
@@ -87,12 +89,7 @@ public class GreadMajorClassDao  {
 			int i=0;
 			if(add.equals("1"))
 			{
-				//添加班级
-				if(getGradeForm(gradeForm.getGradename())==null)
-				{
-					String sql="insert into grade (gradename,des) values('"+gradeForm.getGradename()+"','"+gradeForm.getDes()+"')";
-					i=connection.executeUpdate(sql);
-				}
+				
 				String sql2="insert into clas (classname,grade_id,major_id) values('"+clasForm.getClasname()+"','"+getGradeForm(gradeForm.getGradename()).getId()+"','"+getMajorForm(majorForm.getMajorname()).getId()+"')";
 				i=connection.executeUpdate(sql2);
 				
@@ -108,13 +105,14 @@ public class GreadMajorClassDao  {
 				//添加一个新班级
 				int grade_id=getGradeForm(gradeForm.getGradename()).getId();
 				int major_id=getMajorForm(majorForm.getMajorname()).getId();
-				if(getGradeForm(gradeForm.getGradename())==null)
-				{
-					String sql="insert into grade (gradename,des) values('"+gradeForm.getGradename()+"','"+gradeForm.getDes()+"')";
-					i=connection.executeUpdate(sql);
-				}
 				String sql2="insert into clas (classname,grade_id,major_id) values('"+clasForm.getClasname()+"','"+grade_id+"','"+major_id+"')";
 				i=connection.executeUpdate(sql2);
+			}
+			//添加年级
+			if(add.equals("4"))
+			{
+				String sql="insert into grade (gradename,des) values('"+gradeForm.getGradename()+"','"+gradeForm.getDes()+"')";
+				i=connection.executeUpdate(sql);
 			}
 			return i;
 		}
@@ -147,14 +145,13 @@ public class GreadMajorClassDao  {
 		 * @return
 		 */
 		public MajorForm getMajorForm(String majorname) {
-			String sql = "select * from major where major.majorname='"+majorname+"';";
+			String sql = "select * from major where major.majorname='"+majorname+"'";
 			ResultSet rs = connection.executeQuery(sql);
 			
 			try {
 				while(rs.next()) {
 					majorForm = new MajorForm();
 					majorForm.setId(Integer.valueOf(rs.getString(1)));
-					
 					majorForm.setMajorname(rs.getString(2));
 					majorForm.setDes(rs.getString(3));
 				}
@@ -223,10 +220,7 @@ public class GreadMajorClassDao  {
 		 */
 		public int updateGreadMajorClassForm(GreadMajorClassForm greadMajorClassForm) {
 			int i=0;
-			String sql = "update clas,grade,major set clas.classname='"+greadMajorClassForm.getClasname()+"'" +
-					",grade.gradename='"+greadMajorClassForm.getGradename()+"',major.majorname='"+greadMajorClassForm.getMajorname()+
-					"',grade.des='"+greadMajorClassForm.getGradeDes()+"',major.des='"+greadMajorClassForm.getMajorDes()+
-					"' where clas.id='"+greadMajorClassForm.getClasId()+"' and grade.id='"+greadMajorClassForm.getGradeId()+"' and major.id='"+greadMajorClassForm.getMajorId()+"'";
+			String sql = "update clas set clas.classname='"+greadMajorClassForm.getClasname()+"',clas.grade_id='"+greadMajorClassForm.getGradeId()+"',clas.major_id='"+greadMajorClassForm.getMajorId()+"' where clas.id = '"+greadMajorClassForm.getClasId()+"'";
 			i=connection.executeUpdate(sql);
 			return i;
 		}
@@ -257,5 +251,44 @@ public class GreadMajorClassDao  {
 			
 			return flag;
 		}
-		
+		//按专业名获获取对应的班级
+		public List getClas(String Majorname) {
+
+			List<ClasForm> list = new ArrayList();
+			String sql = "select clas.classname from clas where clas.major_id in(select major.id from major where major.majorname='"+Majorname+"')";
+			try {
+				ResultSet rs = connection.executeQuery(sql);
+		      while (rs.next()) {
+		    	    clasForm = new ClasForm();
+		    	    clasForm.setClasname(rs.getString(2));
+					list.add(clasForm);
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			// connection.close();
+			return list;
+		}
+		//获取所有班级
+		public List getClasForm()
+		{
+			List<GreadMajorClassForm> list = new ArrayList();
+			String sql = "select clas.id,clas.classname,grade.gradename,major.majorname from clas,grade,major where clas.grade_id = grade.id and clas.major_id = major.id group by clas.classname";
+			try {
+				ResultSet rs = connection.executeQuery(sql);
+		      while (rs.next()) {
+		    	    greadMajorClassForm = new GreadMajorClassForm();
+		    	    greadMajorClassForm.setClasId(Integer.valueOf(rs.getString(1)));
+		    	    greadMajorClassForm.setClasname(rs.getString(2));
+		    	    greadMajorClassForm.setGradename(Integer.valueOf(rs.getString(3)));
+		    	    greadMajorClassForm.setMajorname(rs.getString(4));
+		    	    list.add(greadMajorClassForm);
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return list;
+		}
 }

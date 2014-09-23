@@ -20,9 +20,28 @@
 			List<GreadMajorClassForm> greadMajorClassList = new ArrayList();
 			majorList=greadMajorClassDao.AllMajorForm();
 			greadMajorClassList=greadMajorClassDao.QueryNumberOfLTLL();
+			
+			
+			TeacherDao teacherDao = new TeacherDao();
+	        List<GradeForm> gradelist= new ArrayList();
+	        gradelist = teacherDao.getGrade();
 	
 	 %>
-
+     <script type="text/javascript">
+		  function getClass()
+		  {
+		     //获取专业下拉框
+		     var major=document.form1.Major.value;  
+		     //alert(major);
+		     //获取班级下拉框
+		     <%
+		          List<ClasForm> clasFormList = new ArrayList();
+		          clasFormList = greadMajorClassDao.getClas("");
+		     %>
+		     var clas=document.form1.Clas;   
+		  }     
+		
+	</script>
 	<body>
 	<font color="red"><h2>管理所有学生添加,修改，删除</h2></font>
     <table>
@@ -31,21 +50,20 @@
       <tr>
      <td>
          <font color="red">按年级-专业-班级查询学生</font>
-         <form action="AdminServlet?method=4&sign=5" method="post">
-                     年级<SELECT NAME="Grade">   
-		<OPTION VALUE="0">请选择年级 </OPTION>
+         <form action="AdminServlet?method=4&sign=5" method="post" name="form1">
+                   年级<SELECT NAME="Grade">   
 		<%
-           for (int i = 0; i < greadMajorClassList.size(); ++i) {
-           GreadMajorClassForm greadMajorClassForm = new GreadMajorClassForm();
-           greadMajorClassForm = greadMajorClassList.get(i);
-        %>  
-         <OPTION VALUE="<%=greadMajorClassForm.getGradename()%>"><%=greadMajorClassForm.getGradename()%> </OPTION>  
-        <%
-           }
-        %>   
+			for (int i = 0; i < gradelist.size(); ++i) {
+			GradeForm gradeForm = new GradeForm();
+			gradeForm= gradelist.get(i);
+			//System.out.println(gradelist.size());
+		%>
+		<option value="<%=gradeForm.getGradename()%>"><%=gradeForm.getGradename()%></option>
+		<%
+			}
+		%>
 		</SELECT>
-	    专业<SELECT NAME="Major">   
-		<OPTION VALUE="0">请选择专业 </OPTION>
+	    专业<SELECT NAME="Major" onChange="getClass()">   
 		<%
 		   for (int i = 0; i < majorList.size(); ++i) {
 		       MajorForm majorForm = new MajorForm();
@@ -77,19 +95,18 @@
          <font color="red">添加新生</font>
           <form action="AdminServlet?method=5&sign=6" method="post">
               年级<SELECT NAME="Grade">   
-		<OPTION VALUE="0">请选择年级 </OPTION>
 		<%
-           for (int i = 0; i < greadMajorClassList.size(); ++i) {
-           GreadMajorClassForm greadMajorClassForm = new GreadMajorClassForm();
-           greadMajorClassForm = greadMajorClassList.get(i);
-        %>  
-         <OPTION VALUE="<%=greadMajorClassForm.getGradename()%>"><%=greadMajorClassForm.getGradename()%> </OPTION>  
-        <%
-           }
-        %>   
+			for (int i = 0; i < gradelist.size(); ++i) {
+			GradeForm gradeForm = new GradeForm();
+			gradeForm= gradelist.get(i);
+			//System.out.println(gradelist.size());
+		%>
+		<option value="<%=gradeForm.getGradename()%>"><%=gradeForm.getGradename()%></option>
+		<%
+			}
+		%>
 		</SELECT>
 	    专业<SELECT NAME="Major">   
-		<OPTION VALUE="0">请选择专业 </OPTION>
 		<%
 		   for (int i = 0; i < majorList.size(); ++i) {
 		       MajorForm majorForm = new MajorForm();

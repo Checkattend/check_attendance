@@ -96,5 +96,65 @@
 	   }else{
 	      out.println("<script language=javascript>alert('Delete Teacher Success!!');window.location.href='AdminServlet?method=8&sign=10';</script>");
 	   }
+   }else if(sign==15)//从CurriculumServlet传过来curriculumForm对象，显示课程表，返回到adminCurriculum.jsp页面
+   {
+        session.setAttribute("curriculumForm",request.getAttribute("curriculumForm"));
+        out.println("<script language=javascript>window.location.href='adminCurriculum.jsp';</script>"); 
+   }else if(sign==16)//指定辅导员，指定成功返回到SpecifyCounselor.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='SpecifyCounselor.jsp';</script>");
+	   }
+   }else if(sign==17)//返回一个instructor_gradeForm对象
+   {
+        session.setAttribute("instructor_gradeForm",request.getAttribute("instructor_gradeForm"));
+	    out.println("<script language=javascript>window.location.href='modifySpecifyCounselor.jsp';</script>"); 
+   }else if(sign==18)//修改指定辅导员，成功返回到SpecifyCounselor.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='SpecifyCounselor.jsp';</script>");
+	   }
+   }else if(sign==19)//删除指定辅导员，成功返回到SpecifyCounselor.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Delete SpecifyCounselor Success!!');window.location.href='SpecifyCounselor.jsp';</script>");
+	   }
+   }else if(sign==20)//指定教师，指定成功返回到SpecifyClassTeacher.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='SpecifyClassTeacher.jsp';</script>");
+	   }
+   }else if(sign==21)//返回一个class_teacherForm对象,跳转到modifySpecifyClassTeacher.jsp
+   {
+        session.setAttribute("class_teacherForm",request.getAttribute("class_teacherForm"));
+	    out.println("<script language=javascript>window.location.href='modifySpecifyClassTeacher.jsp';</script>"); 
+   }else if(sign==22)//修改指定教师所教班级，成功返回到SpecifyClassTeacher.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='SpecifyClassTeacher.jsp';</script>");
+	   }
+   }else if(sign==23)//删除指定教师所教班级，成功返回到SpecifyClassTeacher.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Delete SpecifyClassTeacher Success!!');window.location.href='SpecifyClassTeacher.jsp';</script>");
+	   }
    }
 %>

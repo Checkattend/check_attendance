@@ -70,6 +70,15 @@
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/AdminServlet</url-pattern>
   </servlet-mapping>
+  <servlet> 
+    <servlet-name>CurriculumServlet</servlet-name>
+    <servlet-class>com.gdpi.attendance.webiter.CurriculumServlet</servlet-class>
+  </servlet> 
+	
+  <servlet-mapping>
+    <servlet-name>CurriculumServlet</servlet-name>
+    <url-pattern>/CurriculumServlet</url-pattern>
+  </servlet-mapping>
     <servlet> 
     <servlet-name>InstructorServlet</servlet-name>
     <servlet-class>com.gdpi.attendance.webiter.InstructorServlet</servlet-class>

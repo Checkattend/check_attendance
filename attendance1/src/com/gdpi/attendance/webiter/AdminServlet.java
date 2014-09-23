@@ -13,11 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gdpi.attendance.dao.AllStudentDao;
 import com.gdpi.attendance.dao.GreadMajorClassDao;
+import com.gdpi.attendance.dao.SpecifyClassTeacherDao;
+import com.gdpi.attendance.dao.SpecifyCounselorDao;
 import com.gdpi.attendance.dao.TeacherDao;
 import com.gdpi.attendance.form.AllStudentForm;
 import com.gdpi.attendance.form.ClasForm;
+import com.gdpi.attendance.form.Class_teacherForm;
 import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.GreadMajorClassForm;
+import com.gdpi.attendance.form.Instructor_gradeForm;
 import com.gdpi.attendance.form.MajorForm;
 import com.gdpi.attendance.form.StudentForm;
 import com.gdpi.attendance.form.SubjectForm;
@@ -29,7 +33,8 @@ public class AdminServlet extends HttpServlet {
 	private GreadMajorClassDao greadMajorClassDao = null;
 	private AllStudentDao allStudentDao = null;
 	private TeacherForm teacherForm=null;
-	
+	private Instructor_gradeForm instructor_gradeForm = null;
+	private Class_teacherForm class_teacherForm = null;
 
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -71,7 +76,26 @@ public class AdminServlet extends HttpServlet {
 		}else if(method==11)
 		{
 			deleteTeacher(request, response);//删除一个教师
+		}else if(method==12)
+		{
+			SpecifyCounselor(request, response);//指定的辅导员
+		}else if(method==13)
+		{
+			modifySpecifyCounselor(request, response);//修改一个指定的辅导员
+		}else if(method==14)
+		{
+			deleteSpecifyCounselor(request, response);//删除一个指定的辅导员
+		}else if(method==15)
+		{
+			SpecifyClassTeacher(request, response);//指定的教师所教班级
+		}else if(method==16)
+		{
+			modifySpecifyClassTeacher(request, response);//修改一个指定教师所教班级
+		}else if(method==17)
+		{
+			deleteSpecifyClassTeacher(request, response);//删除一个指定的教师所教班级
 		}
+		
 	}
 
 	/**
@@ -116,11 +140,19 @@ public class AdminServlet extends HttpServlet {
 		if(add.equals("1")||add.equals("3"))
 		{
 			gradeForm.setGradename(Integer.valueOf(request.getParameter("Grade")));
-			gradeForm.setDes(request.getParameter("GradeDes"));
 			clasForm.setClasname(request.getParameter("Clas"));
-		}	
-		majorForm.setMajorname(request.getParameter("Major"));
-		majorForm.setDes(request.getParameter("MajorDes"));
+			majorForm.setMajorname(request.getParameter("Major"));
+		}
+	    if(add.equals("2"))
+		{
+			majorForm.setMajorname(request.getParameter("Major"));
+			majorForm.setDes(request.getParameter("MajorDes"));
+		}
+	    if(add.equals("4"))
+		{
+	    	gradeForm.setGradename(Integer.valueOf(request.getParameter("Grade")));
+	    	gradeForm.setDes(request.getParameter("GradeDes"));
+		}
 		int i=greadMajorClassDao.addGreadMajorClassForm(gradeForm,majorForm,clasForm,add);
 		if(i==0)
 		{
@@ -158,8 +190,8 @@ public class AdminServlet extends HttpServlet {
 		if(modify.equals("2"))
 		{			
 			greadMajorClassForm.setClasname(request.getParameter("Clas"));
-			greadMajorClassForm.setGradename(Integer.valueOf(Chinese.toChinese(request.getParameter("Grade"))));
-			greadMajorClassForm.setMajorname(request.getParameter("Major"));
+			greadMajorClassForm.setGradeId(Integer.valueOf(Chinese.toChinese(request.getParameter("Grade"))));
+			greadMajorClassForm.setMajorId(Integer.valueOf(request.getParameter("Major")));
 			greadMajorClassForm.setGradeDes(request.getParameter("gradeDes"));
 			greadMajorClassForm.setMajorDes(request.getParameter("majorDes"));
 
@@ -444,6 +476,179 @@ public class AdminServlet extends HttpServlet {
 		             .getRequestDispatcher("/admindealwith.jsp");
         requestDispatcher.forward(request, response);
 	}
+	
+	/**
+	 * MineAtten指定辅导员
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void SpecifyCounselor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SpecifyCounselorDao specifyCounselorDao=new SpecifyCounselorDao();
+		int i = specifyCounselorDao.SpecifyCounselor(request.getParameter("Grade"), request.getParameter("Counselor"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"This is existing");
+		}
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAttendan修改指定辅导员
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void modifySpecifyCounselor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		String modify=request.getParameter("modify");
+		SpecifyCounselorDao specifyCounselorDao = new SpecifyCounselorDao();
+		instructor_gradeForm = new Instructor_gradeForm();
+		if(modify.equals("1"))
+		{
+			instructor_gradeForm = specifyCounselorDao.returnInstructor_gradeForm(request.getParameter("gradeId"), request.getParameter("teacherId"));
+			request.setAttribute("instructor_gradeForm", instructor_gradeForm);
+		}
+		if(modify.equals("2"))
+		{
+			//System.out.println(request.getParameter("gradeid")+request.getParameter("teacherid"));
+			instructor_gradeForm.setGradename(Integer.valueOf(request.getParameter("Grade")));
+			instructor_gradeForm.setTeachername(request.getParameter("Counselor"));
+			instructor_gradeForm.setGradeId(Integer.valueOf(request.getParameter("gradeid")));
+			instructor_gradeForm.setId(Integer.valueOf(request.getParameter("teacherid")));
+			int i=specifyCounselorDao.modifySpecifyCounselor(instructor_gradeForm);
+			if(i==0)
+			{
+				request.setAttribute("information",
+				"modify modifySpecifyCounselor error");
+			}
+		}
+	
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten删除指定辅导员
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void deleteSpecifyCounselor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SpecifyCounselorDao specifyCounselorDao=new SpecifyCounselorDao();
+		int i = specifyCounselorDao.deleteSpecifyCounselor(request.getParameter("gradeId"), request.getParameter("teacherId"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"delete SpecifyCounselor error");
+		}
+		
+		
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten指定教师所教班级
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void SpecifyClassTeacher(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SpecifyClassTeacherDao specifyClassTeacherDao=new SpecifyClassTeacherDao();
+		int i = specifyClassTeacherDao.specifyClassTeacherDao(request.getParameter("clas"), request.getParameter("teacher"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"This is existing");
+		}
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten删除指定教师所教班级
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void deleteSpecifyClassTeacher(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SpecifyClassTeacherDao specifyClassTeacherDao=new SpecifyClassTeacherDao();
+		int i = specifyClassTeacherDao.deleteSpecifyClassTeacher(request.getParameter("clasId"), request.getParameter("teacherId"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"delete SpecifyCounselor error");
+		}
+		
+		
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAttendan修改教师所教班级
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void modifySpecifyClassTeacher(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		String modify=request.getParameter("modify");
+		SpecifyClassTeacherDao specifyClassTeacherDao = new SpecifyClassTeacherDao();
+		class_teacherForm = new Class_teacherForm();
+		if(modify.equals("1"))
+		{
+			class_teacherForm = specifyClassTeacherDao.returnClass_teacherForm(request.getParameter("clasId"), request.getParameter("teacherId"));
+			request.setAttribute("class_teacherForm", class_teacherForm);
+		}
+		if(modify.equals("2"))
+		{
+            System.out.println(request.getParameter("clasid")+request.getParameter("teacherid"));
+            System.out.println(request.getParameter("clas")+request.getParameter("teacher"));
+            String clasOld = request.getParameter("clasid");
+            String teacherOld = request.getParameter("teacherid");
+            String clasNow = request.getParameter("clas");
+            String teacherNow =  request.getParameter("teacher");
+			int i=specifyClassTeacherDao.modifySpecifyCounselor(clasOld,teacherOld,clasNow,teacherNow);
+			if(i==0)
+			{
+				request.setAttribute("information",
+				"modify SpecifyClassTeacher error");
+			}
+		}
+	
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

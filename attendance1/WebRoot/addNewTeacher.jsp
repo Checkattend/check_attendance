@@ -3,25 +3,11 @@
 	import="com.gdpi.attendance.form.*"
 	import="com.gdpi.attendance.form.SubjectForm" import="java.util.List"
 	import="java.util.ArrayList" pageEncoding="utf-8"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
 	<head>
 		<title>添加新增教师</title>
 	</head>
-	<%
-	        GreadMajorClassDao greadMajorClassDao = new GreadMajorClassDao();
-			List<MajorForm> majorList = new ArrayList();
-			List<GreadMajorClassForm> greadMajorClassList = new ArrayList();
-			majorList=greadMajorClassDao.AllMajorForm();
-			greadMajorClassList=greadMajorClassDao.QueryNumberOfLTLL();
-	
-	 %>
 
 	<body>
 	<h3>添加新增教师</h3>

@@ -14,7 +14,10 @@ transitional.dtd">
             		{ID:12, TEXT:"添加年级-专业-班级", PID:1, URL:"/addGradeMajorClas.jsp"},
             		{ID:13, TEXT:"管理所有学生", PID:1, URL:"/ManageAllStudents.jsp"},
             		{ID:14, TEXT:"管理所有教师", PID:1, URL:"/AdminServlet?method=8&sign=10"},
-            		{ID:15, TEXT:"班级课程表-任课老师-辅导员", PID:1, URL:"/Subject-Teacher-Counselor.jsp"}
+            		{ID:14, TEXT:"指定辅导员", PID:1, URL:"/SpecifyCounselor.jsp"},
+            		{ID:14, TEXT:"指定老师对应班级", PID:1, URL:"/SpecifyClassTeacher.jsp"},
+            		{ID:14, TEXT:"课程表安排", PID:1, URL:"/CurriculumPlanning.jsp"},
+            		{ID:15, TEXT:"课程表查询", PID:1, URL:"/adminCurriculum.jsp"}
 
             	];
             $(function ()

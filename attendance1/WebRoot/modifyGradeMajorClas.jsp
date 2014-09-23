@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*"
-	import="com.gdpi.attendance.dao.GreadMajorClassDao"
-	import="com.gdpi.attendance.form.GreadMajorClassForm"
-	import="com.gdpi.attendance.form.MajorForm" 
+	import="com.gdpi.attendance.dao.*"
+	import="com.gdpi.attendance.form.*"
 	import="java.util.List"
 	import="java.util.ArrayList" pageEncoding="utf-8"%>
 <%
@@ -20,6 +19,10 @@
 			List<GreadMajorClassForm> greadMajorClassList = new ArrayList();
 			majorList=greadMajorClassDao.AllMajorForm();
 			greadMajorClassList=greadMajorClassDao.QueryNumberOfLTLL();
+			
+			TeacherDao teacherDao = new TeacherDao();
+	        List<GradeForm> gradelist= new ArrayList();
+	        gradelist = teacherDao.getGrade();
 		%>
         <%
 	       GreadMajorClassDao greadMajorClassDao1=new GreadMajorClassDao();
@@ -43,19 +46,19 @@
 
 								  <tr bgcolor="#C1D8F0">
 									<td>
-										年级:<select name="Grade">
-										      <OPTION VALUE="<%=greadMajorClassForm.getGradename()%>"><%=greadMajorClassForm.getGradename()%> </OPTION>   
-									          <option value="2011">2011</option>
-									          <option value="2012">2012</option>
-									          <option value="2013">2013</option>
-									          <option value="2012">2014</option>
-									          <option value="2015">2015</option>
-									          <option value="2016">2016</option>
-									          <option value="2017">2017</option>
-									          <option value="2018">2018</option>
-									          <option value="2019">2019</option>
-									          <option value="2020">2020</option>
-									        </select>
+		年级<SELECT NAME="Grade">  
+		 <OPTION VALUE="<%=greadMajorClassForm.getGradeId()%>"><%=greadMajorClassForm.getGradename()%> </OPTION>
+		<%
+			for (int i = 0; i < gradelist.size(); ++i) {
+			GradeForm gradeForm = new GradeForm();
+			gradeForm= gradelist.get(i);
+			//System.out.println(gradelist.size());
+		%>
+		<option value="<%=gradeForm.getId()%>"><%=gradeForm.getGradename()%></option>
+		<%
+			}
+		%>
+		</SELECT>
 									</td>
 									<td>
 									         年级描述:<input type="text" name="gradeDes" value="<%=greadMajorClassForm.getGradeDes()%>">
@@ -64,13 +67,13 @@
 								    <tr bgcolor="#C1D8F0">	
 									<td>
 										专业:<SELECT NAME="Major">   
-												 <OPTION VALUE="<%=greadMajorClassForm.getMajorname()%>"><%=greadMajorClassForm.getMajorname()%> </OPTION>   
+												 <OPTION VALUE="<%=greadMajorClassForm.getMajorId()%>"><%=greadMajorClassForm.getMajorname()%> </OPTION>   
 												<%
 												   for (int i = 0; i < majorList.size(); ++i) {
 												       MajorForm majorForm = new MajorForm();
 												       majorForm = majorList.get(i);   
 												%> 
-												   <OPTION VALUE="<%=majorForm.getMajorname() %>"><%=majorForm.getMajorname() %> </OPTION>  
+												   <OPTION VALUE="<%=majorForm.getId() %>"><%=majorForm.getMajorname() %> </OPTION>  
 												<%
 												}
 												 %>  		  

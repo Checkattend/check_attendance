@@ -17,9 +17,14 @@
 			majorList=greadMajorClassDao.AllMajorForm();
 			greadMajorClassList=greadMajorClassDao.QueryNumberOfLTLL();
 			
+			TeacherDao teacherDao = new TeacherDao();
+	        List<GradeForm> gradelist= new ArrayList();
+	        gradelist = teacherDao.getGrade();
+			
 			AllStudentForm allStudentForm=(AllStudentForm)session.getAttribute("allStudentForm");
 	
 	 %>
+	 
 
 	<body>
 	<h3>修改学生信息</h3>
@@ -29,16 +34,16 @@
               年级<SELECT NAME="Grade">   
 		<OPTION VALUE="<%=allStudentForm.getGradename() %>"><%=allStudentForm.getGradename() %> </OPTION>
 		<%
-           for (int i = 0; i < greadMajorClassList.size(); ++i) {
-           GreadMajorClassForm greadMajorClassForm = new GreadMajorClassForm();
-           greadMajorClassForm = greadMajorClassList.get(i);
-        %>  
-         <OPTION VALUE="<%=greadMajorClassForm.getGradename()%>"><%=greadMajorClassForm.getGradename()%> </OPTION>  
-        <%
-           }
-        %>   
+			for (int i = 0; i < gradelist.size(); ++i) {
+			GradeForm gradeForm = new GradeForm();
+			gradeForm= gradelist.get(i);
+		%>
+		<option value="<%=gradeForm.getGradename()%>"><%=gradeForm.getGradename()%></option>
+		<%
+			}
+		%>
 		</SELECT>
-	    专业<SELECT NAME="Major">   
+	    专业<SELECT NAME="Major" onChange="getClass()">   
 		<OPTION VALUE="<%=allStudentForm.getMajorname() %>"><%=allStudentForm.getMajorname() %> </OPTION>
 		<%
 		   for (int i = 0; i < majorList.size(); ++i) {

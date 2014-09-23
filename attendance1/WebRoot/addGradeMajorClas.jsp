@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*"
-	import="com.gdpi.attendance.dao.GreadMajorClassDao"
-	import="com.gdpi.attendance.form.GreadMajorClassForm"
-	import="com.gdpi.attendance.form.MajorForm" 
+	import="com.gdpi.attendance.dao.*"
+	import="com.gdpi.attendance.form.*"
 	import="java.util.List"
 	import="java.util.ArrayList" pageEncoding="utf-8"%>
 <%
@@ -20,6 +19,10 @@
 			List<GreadMajorClassForm> greadMajorClassList = new ArrayList();
 			majorList=greadMajorClassDao.AllMajorForm();
 			greadMajorClassList=greadMajorClassDao.QueryNumberOfLTLL();
+			
+			TeacherDao teacherDao = new TeacherDao();
+	        List<GradeForm> gradelist= new ArrayList();
+	        gradelist = teacherDao.getGrade();
 		%>
 	</head>
 
@@ -34,20 +37,20 @@
 	     <td> <font color="red"><b>添加已有班级：</b></font></td>
 	     </tr>
 	      <tr>
-	         <td>  年级<select name="Grade">
-          <option value="2011">2011</option>
-          <option value="2012">2012</option>
-          <option value="2013">2013</option>
-          <option value="2012">2014</option>
-          <option value="2015">2015</option>
-          <option value="2016">2016</option>
-          <option value="2017">2017</option>
-          <option value="2018">2018</option>
-          <option value="2019">2019</option>
-          <option value="2020">2020</option>
-        </select>
+	         <td>    年级<SELECT NAME="Grade">   
+		<%
+			for (int i = 0; i < gradelist.size(); ++i) {
+			GradeForm gradeForm = new GradeForm();
+			gradeForm= gradelist.get(i);
+			//System.out.println(gradelist.size());
+		%>
+		<option value="<%=gradeForm.getGradename()%>"><%=gradeForm.getGradename()%></option>
+		<%
+			}
+		%>
+		</SELECT>
         
-		专业<SELECT NAME="Major" onChange="getClas()">   
+		专业<SELECT NAME="Major">   
 		<OPTION VALUE="0">请选择专业 </OPTION>
 		<%
 		   for (int i = 0; i < majorList.size(); ++i) {
@@ -96,6 +99,27 @@
 	      </form>
 	      </td>
 	      </tr>
+	      
+	      <tr>
+		<td>	
+		 <form action="AdminServlet?method=1&sign=1&add=4" method="post" >      
+		  <tr>
+			  <td>
+		           <font color="red"><b>新增一个年级：</b></font>
+		      </td>
+	      </tr> 
+	      <tr> 
+	      <td>
+		           年级    <input type="text" name="Grade"/>
+			 年级描述<input type="text" name="GradeDes"/>
+			        <input type="submit" name="添加" value="添加"/>  
+			</td>  
+		   </tr> 
+	      </form>
+	      </td>
+	      </tr>
+	      
+	      
 	      <tr>
 	      <td>
 	      <form action="AdminServlet?method=1&sign=1&add=3" method="post" > 
@@ -106,19 +130,19 @@
 	      </tr>     
 		  <tr>
 		     <td>
-		       年级<select name="Grade">
-          <option value="2011">2011</option>
-          <option value="2012">2012</option>
-          <option value="2013">2013</option>
-          <option value="2012">2014</option>
-          <option value="2015">2015</option>
-          <option value="2016">2016</option>
-          <option value="2017">2017</option>
-          <option value="2018">2018</option>
-          <option value="2019">2019</option>
-          <option value="2020">2020</option>
-        </select>   
-		   专业 <SELECT NAME="Major" onChange="getCity()">   
+		         年级<SELECT NAME="Grade">   
+		<%
+			for (int i = 0; i < gradelist.size(); ++i) {
+			GradeForm gradeForm = new GradeForm();
+			gradeForm= gradelist.get(i);
+			//System.out.println(gradelist.size());
+		%>
+		<option value="<%=gradeForm.getGradename()%>"><%=gradeForm.getGradename()%></option>
+		<%
+			}
+		%>
+		</SELECT>  
+		   专业 <SELECT NAME="Major">   
 		<OPTION VALUE="0">请选择专业 </OPTION>   
 		<%
 		   for (int i = 0; i < majorList.size(); ++i) {
