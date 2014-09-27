@@ -27,7 +27,7 @@
 	      }
 	     if(userType.equals("4"))
 	      {
-	          out.println("<script language=javascript>alert('Login Success!!');window.location.href='admin.jsp';</script>");
+	          out.println("<script language=javascript>window.location.href='admin.jsp';</script>");
 	      }
 	      
 	   }

@@ -291,4 +291,27 @@ public class GreadMajorClassDao  {
 			}
 			return list;
 		}
+		/**
+		 * 按班级id获取班级
+		 * 
+		 * @param classid
+		 * @return
+		 */
+		public GreadMajorClassForm getclas(String clasid) {
+			String sql = "select clas.id,clas.classname,grade.gradename,major.majorname from clas,grade,major where clas.id = '"+clasid+"' and clas.grade_id = grade.id and clas.major_id = major.id";
+			ResultSet rs = connection.executeQuery(sql);
+			
+			try {
+				while(rs.next()) {
+					greadMajorClassForm = new GreadMajorClassForm();
+					greadMajorClassForm.setClasId(Integer.valueOf(rs.getString(1)));
+					greadMajorClassForm.setClasname(rs.getString(2));
+					greadMajorClassForm.setGradename(Integer.valueOf(rs.getString(3)));
+					greadMajorClassForm.setMajorname(rs.getString(4));
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			return greadMajorClassForm;
+		}
 }

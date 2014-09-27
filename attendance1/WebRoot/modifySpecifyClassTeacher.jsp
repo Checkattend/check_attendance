@@ -15,12 +15,14 @@
 		<title>修改教师所教班级</title>
 	</head>
 	<%	
+	      //获取要修改的教师所教班级
 	      Class_teacherForm class_teacherForm = (Class_teacherForm)session.getAttribute("class_teacherForm");
 	      
+	      //获取教师列表
 	      SpecifyClassTeacherDao specifyClassTeacherDao = new SpecifyClassTeacherDao();
-	      List<TeacherForm> SpecifyCounselorlist= new ArrayList();
-	      SpecifyCounselorlist =  specifyClassTeacherDao.getTeacher();	
-	      
+	      List<TeacherForm> SpecifyTeaherlist= new ArrayList();
+	      SpecifyTeaherlist =  specifyClassTeacherDao.getTeacher();	
+	      //获取班级列表
 	      GreadMajorClassDao greadMajorClassDao = new GreadMajorClassDao();
 		  List<GreadMajorClassForm> clasFormList = new ArrayList();
 		  clasFormList = greadMajorClassDao.getClasForm();
@@ -39,9 +41,9 @@
                        教师<SELECT NAME="teacher">
         <option value="<%=class_teacherForm.getTeacherid()%>"><%=class_teacherForm.getTeachername()%>(<%=class_teacherForm.getAccount() %>)</option>                 
 		<%
-			for (int i = 0; i < SpecifyCounselorlist.size(); ++i) {
+			for (int i = 0; i < SpecifyTeaherlist.size(); ++i) {
 			TeacherForm teacherForm = new TeacherForm();
-			teacherForm= SpecifyCounselorlist.get(i);
+			teacherForm= SpecifyTeaherlist.get(i);
 			//System.out.println(gradelist.size());
 		%>
 		<option value="<%=teacherForm.getId()%>"><%=teacherForm.getTeachername()%></option>

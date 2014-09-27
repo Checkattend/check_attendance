@@ -127,7 +127,7 @@ public class SpecifyClassTeacherDao  {
 			return flag;
 		}
 		
-		//修改指定辅导员
+		//修改教师所教班级
 		public int  modifySpecifyCounselor(String clasOld,String teacherOld,String clasNow,String teacherNow)
 		{
 			int i=0;

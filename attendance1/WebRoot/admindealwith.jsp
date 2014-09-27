@@ -156,5 +156,101 @@
 	   }else{
 	      out.println("<script language=javascript>alert('Delete SpecifyClassTeacher Success!!');window.location.href='SpecifyClassTeacher.jsp';</script>");
 	   }
+   }else if(sign==24)//返回一个class_teacherForm对象,跳转到modifySpecifyClassTeacher.jsp
+   {
+        session.setAttribute("commit","commit");
+        session.setAttribute("submit","submit");
+        session.setAttribute("class",request.getAttribute("class"));
+        session.setAttribute("class_subject_teacherForm",request.getAttribute("class_subject_teacherForm"));
+	    out.println("<script language=javascript>window.location.href='SpecifyClassSubject.jsp';</script>"); 
+   }else if(sign==25)//返回一个class_subject_teacherForm对象,跳转到modifySpecifyClassSubject.jsp
+   {
+        session.setAttribute("class_subject_teacherForm",request.getAttribute("class_subject_teacherForm"));
+	    out.println("<script language=javascript>window.location.href='modifySpecifyClassSubject.jsp';</script>"); 
+   }else if(sign==26)//修改指定班级所学专业课及任课老师，成功返回到SpecifyClassSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='AdminServlet?method=18&sign=24&clas="+request.getAttribute("clasOld")+"';</script>");
+	   }
+   }else if(sign==27)//删除指定班级所学专业课及任课老师，成功返回到SpecifyClassSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Delete SpecifyClassTeacher Success!!');window.location.href='AdminServlet?method=18&sign=24&clas="+request.getAttribute("classid")+"';</script>");
+	   }
+   }else if(sign==28)//返回一个class_subject_teacherForm对象,跳转到addSpecifyClassSubject.jsp
+   {
+        session.setAttribute("class_subject_teacherForm",request.getAttribute("class_subject_teacherForm"));
+        session.setAttribute("clas",request.getAttribute("clas"));
+	    out.println("<script language=javascript>window.location.href='addSpecifyClassSubject.jsp';</script>"); 
+   }else if(sign==29)//删除指定班级所学专业课及任课老师，成功返回到SpecifyClassSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='AdminServlet?method=18&sign=24&clas="+request.getAttribute("classid")+"';</script>");
+	   }
+   }else if(sign==30)//添加专业课，指定成功返回到ManageSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='ManageSubject.jsp';</script>");
+	   }
+   }else if(sign==31)//返回一个subjectForm对象,跳转到modifySubject.jsp
+   {
+        session.setAttribute("subjectForm",request.getAttribute("subjectForm"));
+	    out.println("<script language=javascript>window.location.href='modifySubject.jsp';</script>"); 
+   }else if(sign==32)//修改专业课，指定成功返回到ManageSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='ManageSubject.jsp';</script>");
+	   }
+   }else if(sign==33)//删除专业课，删除成功返回到ManageSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='ManageSubject.jsp';</script>");
+	   }
+   }else if(sign==34)//指定教师所教专业课，成功返回到SpecifyTeacherSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='SpecifyTeacherSubject.jsp';</script>");
+	   }
+   }else if(sign==35)//返回一个class_subject_teacherForm对象,跳转到modifySpecifyTeacherSubject.jsp
+   {
+        session.setAttribute("class_subject_teacherForm",request.getAttribute("class_subject_teacherForm"));
+	    out.println("<script language=javascript>window.location.href='modifySpecifyTeacherSubject.jsp';</script>"); 
+   }else if(sign==36)//修改指定教师所教专业课，成功返回到SpecifyTeacherSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Success!!');window.location.href='SpecifyTeacherSubject.jsp';</script>");
+	   }
+   }else if(sign==37)//删除指定教师所教专业课，成功返回到SpecifyTeacherSubject.jsp
+   {
+        if(request.getAttribute("information")!=null){
+	      String information=(String)request.getAttribute("information");
+	      out.println("<script language=javascript>alert('"+information+"');history.go(-1);</script>");
+	   }else{
+	      out.println("<script language=javascript>alert('Delete SpecifyClassTeacher Success!!');window.location.href='SpecifyTeacherSubject.jsp';</script>");
+	   }
    }
 %>

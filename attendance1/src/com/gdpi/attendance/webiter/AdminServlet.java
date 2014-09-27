@@ -12,12 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gdpi.attendance.dao.AllStudentDao;
+import com.gdpi.attendance.dao.ClassSubjectTeacherDao;
 import com.gdpi.attendance.dao.GreadMajorClassDao;
 import com.gdpi.attendance.dao.SpecifyClassTeacherDao;
 import com.gdpi.attendance.dao.SpecifyCounselorDao;
+import com.gdpi.attendance.dao.SpecifyTeacherSubjectDao;
+import com.gdpi.attendance.dao.SubjectDao;
 import com.gdpi.attendance.dao.TeacherDao;
 import com.gdpi.attendance.form.AllStudentForm;
 import com.gdpi.attendance.form.ClasForm;
+import com.gdpi.attendance.form.Class_subject_teacherForm;
 import com.gdpi.attendance.form.Class_teacherForm;
 import com.gdpi.attendance.form.GradeForm;
 import com.gdpi.attendance.form.GreadMajorClassForm;
@@ -35,6 +39,7 @@ public class AdminServlet extends HttpServlet {
 	private TeacherForm teacherForm=null;
 	private Instructor_gradeForm instructor_gradeForm = null;
 	private Class_teacherForm class_teacherForm = null;
+	private Class_subject_teacherForm class_subject_teacherForm = null;
 
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -94,7 +99,38 @@ public class AdminServlet extends HttpServlet {
 		}else if(method==17)
 		{
 			deleteSpecifyClassTeacher(request, response);//删除一个指定的教师所教班级
+		}else if(method==18)
+		{
+			selectSpecifyClassSubject(request, response);//查询班级对应所学专业课
+		}else if(method==19)
+		{
+			modifySpecifyClassSubject(request, response);//修改班级对应所学专业课
+		}else if(method==20)
+		{
+			deleteSpecifyClassSubject(request, response);//修改班级对应所学专业课
+		}else if(method==21)
+		{
+			addSpecifyClassSubject(request, response);//添加班级对应所学专业课
+		}else if(method==22)
+		{
+			addSubject(request, response);//添加专业课
+		}else if(method==23)
+		{
+			modifySubject(request, response);//修改专业课
+		}else if(method==24)
+		{
+			deleteSubject(request, response);//删除专业课
+		}else if(method==25)
+		{
+			SpecifyTeacherSubject(request, response);//指定的教师所教专业课
+		}else if(method==26)
+		{
+			modifySpecifyTeacherSubject(request, response);//修改一个指定教师所教专业课
+		}else if(method==27)
+		{
+			deleteSpecifyTeacherSubject(request, response);//删除一个指定的教师所教专业课
 		}
+		
 		
 	}
 
@@ -630,8 +666,8 @@ public class AdminServlet extends HttpServlet {
 		}
 		if(modify.equals("2"))
 		{
-            System.out.println(request.getParameter("clasid")+request.getParameter("teacherid"));
-            System.out.println(request.getParameter("clas")+request.getParameter("teacher"));
+            //System.out.println(request.getParameter("clasid")+request.getParameter("teacherid"));
+            //System.out.println(request.getParameter("clas")+request.getParameter("teacher"));
             String clasOld = request.getParameter("clasid");
             String teacherOld = request.getParameter("teacherid");
             String clasNow = request.getParameter("clas");
@@ -644,6 +680,333 @@ public class AdminServlet extends HttpServlet {
 			}
 		}
 	
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAttendan查询班级所学专业
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void selectSpecifyClassSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		ClassSubjectTeacherDao classSubjectTeacherDao=new ClassSubjectTeacherDao();
+		List<Class_subject_teacherForm> class_subject_teacherForm = new ArrayList();
+		class_subject_teacherForm = classSubjectTeacherDao.getAllClassSubjectTeacherForm(request.getParameter("clas"));
+		request.setAttribute("class", request.getParameter("clas"));
+		request.setAttribute("class_subject_teacherForm", class_subject_teacherForm);
+		
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+        
+	}
+	/**
+	 * MineAttendan修改班级所对应专业级任课老师
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void modifySpecifyClassSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		String modify=request.getParameter("modify");
+		ClassSubjectTeacherDao classSubjectTeacherDao = new ClassSubjectTeacherDao();
+		class_subject_teacherForm = new Class_subject_teacherForm();
+		if(modify.equals("1"))
+		{
+			String clasId = request.getParameter("clasId");
+			String teacherId = request.getParameter("teacherId");
+			String subjectid = request.getParameter("subjectid");
+			class_subject_teacherForm = classSubjectTeacherDao.returnClass_subject_teacherForm(clasId,teacherId,subjectid);
+			request.setAttribute("class_subject_teacherForm", class_subject_teacherForm);
+		}
+		if(modify.equals("2"))
+		{
+            //System.out.println(request.getParameter("clasid")+request.getParameter("teacherid"));
+            //System.out.println(request.getParameter("clas")+request.getParameter("teacher"));
+            String clasOld = request.getParameter("clasid");
+            String subjectOld = request.getParameter("subjectid");
+            String clasNow = request.getParameter("clas");
+            String subjectNow =  request.getParameter("subject");
+			int i=classSubjectTeacherDao.modifySpecifyClassSubject(clasOld,subjectOld,clasNow,subjectNow);
+			if(i==0)
+			{
+				request.setAttribute("information",
+				"This is existing");
+			}
+			else
+			{
+				request.setAttribute("clasOld",clasOld);
+			}
+		}
+	
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten删除指定班级所学专业及任课老师
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void deleteSpecifyClassSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		ClassSubjectTeacherDao classSubjectTeacherDao = new ClassSubjectTeacherDao();
+		int i = classSubjectTeacherDao.deleteSpecifyClassSubject(request.getParameter("clasId"), request.getParameter("subjectid"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"delete SpecifyClassSubject error");
+		}else
+		{
+			request.setAttribute("classid",request.getParameter("clasId"));
+		}
+		
+		
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten添加班级所学专业课及专业老师
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void addSpecifyClassSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		String add=request.getParameter("add");
+		String clasid = request.getParameter("clasid");
+		int i=-1;
+		ClassSubjectTeacherDao classSubjectTeacherDao=new ClassSubjectTeacherDao();
+		if(add.equals("1"))
+		{
+			List<Class_subject_teacherForm> class_subject_teacherForm = new ArrayList();
+			class_subject_teacherForm = classSubjectTeacherDao.getNotSpecifyClassSubject(clasid);
+			request.setAttribute("clas", clasid);
+			request.setAttribute("class_subject_teacherForm", class_subject_teacherForm);
+			
+		}
+		if(add.equals("2"))
+		{
+			String[] subjectList= request.getParameterValues("subject");
+			if(subjectList!=null)
+			{
+				 for(int j=0;j<subjectList.length;j++){
+					 i = classSubjectTeacherDao.addSpecifyClassSubject(clasid, subjectList[j]);
+			     }
+				 
+				 if(i==0)
+				{
+					request.setAttribute("information",
+					"add SpecifyClassSubject error");
+				}
+			}
+			if(i==-1)
+			{
+				request.setAttribute("information",
+				"Can not be empty");
+			}
+			request.setAttribute("classid", clasid);
+		}
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAttendan添加专业课
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void addSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SubjectDao subjectDao=new SubjectDao();
+		
+		String subjectname = request.getParameter("subjectname");
+		String subjectdes =  request.getParameter("subjectdes");
+		int i=subjectDao.addSubject(subjectname,subjectdes);		
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"add subject error");
+		}else if(i==-1)
+		{
+			request.setAttribute("information",
+					Chinese.toChinese(subjectname)+"This is existing");
+		}
+		
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAttendan修改专业课
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void modifySubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		String modify=request.getParameter("modify");
+		SubjectDao subjectDao=new SubjectDao();
+		SubjectForm subjectForm = new SubjectForm();
+		if(modify.equals("1"))
+		{
+			String subjectid = request.getParameter("subjectid");
+			subjectForm = subjectDao.getSubjectForm(subjectid);
+			request.setAttribute("subjectForm", subjectForm);
+		}
+		if(modify.equals("2"))
+		{
+			subjectForm.setId(Integer.valueOf(request.getParameter("subjectid")));
+			subjectForm.setSubjectname(request.getParameter("subjectname"));
+			subjectForm.setDes(request.getParameter("subjectdes"));
+			int i=subjectDao.updateSubject(subjectForm);
+			if(i==0)
+			{
+				request.setAttribute("information",
+				"update subject error");
+			}
+		}
+	
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten删除专业课
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void deleteSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SubjectDao subjectDao=new SubjectDao();
+		int i = subjectDao.deleteSubject(request.getParameter("subjectid"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"delete Subject error");
+		}
+		
+		
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten指定教师所教专业课
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void SpecifyTeacherSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SpecifyTeacherSubjectDao specifyTeacherSubjectDao=new SpecifyTeacherSubjectDao();
+		int i = specifyTeacherSubjectDao.specifyTeacherSubject(request.getParameter("subject"), request.getParameter("teacher"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"This is existing");
+		}
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAttendan修改一个指定教师所教专业课
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void modifySpecifyTeacherSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		String modify=request.getParameter("modify");
+		SpecifyTeacherSubjectDao specifyTeacherSubjectDao = new SpecifyTeacherSubjectDao();
+		class_subject_teacherForm = new Class_subject_teacherForm();
+		if(modify.equals("1"))
+		{
+			class_subject_teacherForm = specifyTeacherSubjectDao.returnSubject_teacherForm(request.getParameter("subjectid"), request.getParameter("teacherid"));
+			request.setAttribute("class_subject_teacherForm", class_subject_teacherForm);
+		}
+		if(modify.equals("2"))
+		{
+            String subjectOld = request.getParameter("subjectid");
+            String teacherOld = request.getParameter("teacherid");
+            String subjectNow = request.getParameter("subject");
+            String teacherNow =  request.getParameter("teacher");
+			int i = specifyTeacherSubjectDao.modifySpecifyCounselor(subjectOld,teacherOld,subjectNow,teacherNow);
+			if(i==0)
+			{
+				request.setAttribute("information",
+				"modify SpecifyClassTeacher error");
+			}else if(i==-1)
+			{
+				request.setAttribute("information",
+				"Please select");
+			}
+		}
+	
+		RequestDispatcher requestDispatcher = request
+		             .getRequestDispatcher("/admindealwith.jsp");
+        requestDispatcher.forward(request, response);
+	}
+	/**
+	 * MineAtten删除指定教师所教专业课
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public void deleteSpecifyTeacherSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		SpecifyTeacherSubjectDao specifyTeacherSubjectDao=new SpecifyTeacherSubjectDao();
+		int i = specifyTeacherSubjectDao.deleteSpecifyTeacherSubject(request.getParameter("subjectid"), request.getParameter("teacherid"));
+		if(i==0)
+		{
+			request.setAttribute("information",
+			"delete SpecifyTeacherSubject error");
+		}
+		
+		
 		RequestDispatcher requestDispatcher = request
 		             .getRequestDispatcher("/admindealwith.jsp");
         requestDispatcher.forward(request, response);
