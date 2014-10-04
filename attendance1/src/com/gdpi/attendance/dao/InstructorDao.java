@@ -102,7 +102,7 @@ public class InstructorDao {
 	//获得所开设的课程
 	public List getSubject(){
 		List<SubjectForm> list=new ArrayList();
-		String sql="select subjectname from subject";
+		String sql="select subjectname from subject group by subjectname";
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 
@@ -121,7 +121,10 @@ public class InstructorDao {
 	public List getClas(int instructorId)
 	{
 		List<ClasForm> list = new ArrayList();
-		String sql=" select clas.classname from clas,grade ,instructor_grade,teacher where instructor_grade.instructor_id='"+instructorId+"' and grade.id=instructor_grade.grade_id and teacher.id=instructor_grade.instructor_id and clas.grade_id=grade.id";
+		String sql=" select clas.classname from clas,grade ,instructor_grade,teacher" +
+				" where instructor_grade.instructor_id='"+instructorId+"' and" +
+						" grade.id=instructor_grade.grade_id and teacher.id=instructor_grade.instructor_id and " +
+						"clas.grade_id=grade.id";
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 
@@ -140,7 +143,9 @@ public class InstructorDao {
 	public List getGrade(int instructorId)
 	{
 		List<GradeForm> list = new ArrayList();
-		String sql=" select gradename from grade,instructor_grade,teacher where instructor_grade.instructor_id='"+instructorId+"' and instructor_grade.instructor_id=teacher.id and instructor_grade.grade_id=grade.id ";
+		String sql=" select gradename from grade,instructor_grade,teacher " +
+				"where instructor_grade.instructor_id='"+instructorId+"' and " +
+						"instructor_grade.instructor_id=teacher.id and instructor_grade.grade_id=grade.id ";
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 

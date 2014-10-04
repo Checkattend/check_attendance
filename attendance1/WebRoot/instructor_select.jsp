@@ -32,7 +32,7 @@
 								<tbody>
 									<tr>
 										<td>
-										<font color="red"><b>按年份查询</b></font>
+										<font color="red"><b>按月份查询</b></font>
 										</td>
 									</tr>
 									<tr>

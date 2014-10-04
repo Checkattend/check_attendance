@@ -42,16 +42,12 @@ public class TeacherDao {
 				teacherForm.setPassword(rs.getString(4));
 				teacherForm.setRoleId(Integer.valueOf(rs.getString(5)));
 				teacherForm.setRolename(rs.getString(7));
-				teacherForm.setRoledes(rs.getString(8));
-				
+				teacherForm.setRoledes(rs.getString(8));			
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		// connection.close();
-		return teacherForm;
-
+		}		
+	      return teacherForm;
 	}
     //获取年级
 	public List getGrade() {
@@ -143,7 +139,12 @@ public class TeacherDao {
     // 查看班级考勤
 	public List getsSubAttendance(int teacher_id) {
 		List<SubAttendanceComForm> list = new ArrayList();
-		String sql = "select grade.gradename,subattendance.formname,clas.classname,`subject`.subjectname,teacher.teachername,thedate,`leave`,truancy,late,leaveEarly,`check`,number from subattendance,clas,`subject`,teacher,grade where subattendance.teacher_id='"+teacher_id+"'and grade.id=clas.grade_id and subattendance.class_id=clas.id and `subject`.id=subattendance.subject_id and teacher.id=subattendance.teacher_id";
+		String sql = "select grade.gradename,subattendance.formname,clas.classname," +
+				"`subject`.subjectname,teacher.teachername,thedate,`leave`,truancy,late,leaveEarly," +
+				"`check`,subattendance.id from subattendance,clas,`subject`,teacher,grade" +
+				" where subattendance.teacher_id='"+teacher_id+"'and grade.id=clas.grade_id " +
+						"and subattendance.class_id=clas.id and `subject`.id=subattendance.subject_id" +
+						" and teacher.id=subattendance.teacher_id";
 		try {
 			ResultSet rs = connection.executeQuery(sql);
 
@@ -172,7 +173,7 @@ public class TeacherDao {
 		}
 	public void ToCommit(String check,int SubId)
 	{
-		String sql="update subattendance set `check`='"+check+"' where number='"+SubId+"' ";
+		String sql="update subattendance set `check`='"+check+"' where id='"+SubId+"' ";
 	                  connection.executeUpdate(sql);
          }
 	//获得gradeID

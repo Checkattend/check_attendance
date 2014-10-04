@@ -5,7 +5,7 @@ transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>主页</title>
+    <title>任课老师主页</title>
      <%@ include file="/pages/commons/header.jsp" %>
         <script type="text/javascript"> 
         	var data = [
@@ -81,7 +81,7 @@ transitional.dtd">
 <div id="topmenu" class="l-topmenu">
     <div class="l-topmenu-logo">欢迎使用计算机系学生考勤管理系统</div>
     <div class="l-topmenu-welcome">
-        <a href="#" class="l-link2">广东理工职业学院</a>
+        <a href="http://www.gdpi.edu.cn/" class="l-link2">广东理工职业学院</a>
         <span class="space">|</span>
         <a href="#" class="l-link2" target="_blank">修改密码</a> 
         <span class="space">|</span>
